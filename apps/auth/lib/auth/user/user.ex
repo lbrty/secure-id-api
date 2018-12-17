@@ -14,8 +14,6 @@ defmodule Auth.User do
     field :is_active, :boolean, default: true
     field :is_admin, :boolean, default: false
 
-    has_many :permissions, Core.Project,
-      through: Auth.UserPermissions,
-      on_delete: :delete_all
+    has_many :permissions, Auth.UsersPermissions, on_delete: :delete_all
   end
 end

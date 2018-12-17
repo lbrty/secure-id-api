@@ -1,4 +1,4 @@
-defmodule Auth.UserPermissions do
+defmodule Auth.UsersPermissions do
   use Ecto.Schema
 
   schema "users_permissions" do
