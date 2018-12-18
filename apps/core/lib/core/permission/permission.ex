@@ -1,6 +1,7 @@
 defmodule Core.Permission do
   use Ecto.Schema
 
+  @timestamp_opts [type: :utc_datetime]
   schema "permissions" do
     # General purpose permissions
     field :view, :boolean, default: true
@@ -14,7 +15,7 @@ defmodule Core.Permission do
     # Can view uploaded documents?
     field :view_documents, :boolean, default: false
 
-    belongs_to :user, Auth.User
     belongs_to :project, Core.Project
+    belongs_to :user, Core.User
   end
 end

@@ -1,8 +1,8 @@
 defmodule Core.Project do
   @moduledoc false
   use Ecto.Schema
-  import Ecto.Changeset
 
+  @timestamp_opts [type: :utc_datetime]
   schema "projects" do
     field :project_name, :string
     field :description, :string
@@ -10,6 +10,6 @@ defmodule Core.Project do
     # Related permissions
     has_many :permissions, Core.Permission
 
-    timestamps(type: :utc_datetime)
+    timestamps()
   end
 end
