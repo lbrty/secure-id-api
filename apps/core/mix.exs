@@ -35,12 +35,7 @@ defmodule Core.MixProject do
 
   defp aliases do
     [
-      "ecto.setup": [
-        "ecto.create",
-        "ecto.create --repo Auth.Repo",
-        "ecto.migrate",
-        "ecto.seed"
-      ],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
 
       "ecto.seed": ["run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
