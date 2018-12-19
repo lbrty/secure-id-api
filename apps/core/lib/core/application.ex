@@ -7,7 +7,7 @@ defmodule Core.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      supervisor(Core.Repo, []),
+      supervisor(Core.Repo, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
