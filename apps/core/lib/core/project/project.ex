@@ -4,11 +4,11 @@ defmodule Core.Project do
 
   @timestamp_opts [type: :utc_datetime]
   schema "projects" do
-    field :project_name, :string
-    field :description, :string
+    field(:project_name, :string)
+    field(:description, :string)
 
     # Related permissions
-    has_many :permissions, Core.Permission
+    has_many(:permissions, Core.Permission)
 
     timestamps()
   end
