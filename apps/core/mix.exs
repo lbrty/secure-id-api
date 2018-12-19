@@ -29,14 +29,13 @@ defmodule Core.MixProject do
     [
       {:ecto, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, "~> 0.14"},
+      {:postgrex, "~> 0.14"}
     ]
   end
 
   defp aliases do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
-
       "ecto.seed": ["run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test.unit": ["ecto.create --quiet", "ecto.migrate", "test"]
