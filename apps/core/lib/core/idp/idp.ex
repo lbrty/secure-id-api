@@ -1,4 +1,5 @@
 defmodule Core.Idp do
+  @moduledoc false
   use Core.Schema
 
   schema "idps" do

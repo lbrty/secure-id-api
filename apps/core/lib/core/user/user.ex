@@ -1,4 +1,5 @@
 defmodule Core.User do
+  @moduledoc false
   use Core.Schema
 
   schema "users" do

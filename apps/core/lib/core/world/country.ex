@@ -1,4 +1,5 @@
 defmodule Core.Country do
+  @moduledoc false
   use Core.Schema
 
   schema "countries" do

@@ -1,4 +1,5 @@
 defmodule Core.Permission do
+  @moduledoc false
   use Ecto.Schema
 
   schema "permissions" do

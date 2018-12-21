@@ -1,4 +1,5 @@
 defmodule Core.IdpCategory do
+  @moduledoc false
   use Core.Schema
 
   # Vulnerability category

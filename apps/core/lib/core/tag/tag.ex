@@ -1,4 +1,5 @@
 defmodule Core.Tag do
+  @moduledoc false
   use Core.Schema
 
   schema "tags" do

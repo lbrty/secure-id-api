@@ -1,4 +1,5 @@
 defmodule Core.State do
+  @moduledoc false
   use Core.Schema
 
   schema "states" do

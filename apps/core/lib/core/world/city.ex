@@ -1,4 +1,5 @@
 defmodule Core.City do
+  @moduledoc false
   use Core.Schema
 
   schema "cities" do
