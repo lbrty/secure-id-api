@@ -1,7 +1,6 @@
 defmodule Core.State do
-  use Ecto.Schema
+  use Core.Schema
 
-  @timestamp_opts [type: :utc_datetime]
   schema "states" do
     field(:title, :string)
 

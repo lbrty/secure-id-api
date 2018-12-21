@@ -1,7 +1,6 @@
 defmodule Core.Permission do
   use Ecto.Schema
 
-  @timestamp_opts [type: :utc_datetime]
   schema "permissions" do
     # General purpose permissions
     field(:view, :boolean, default: true)

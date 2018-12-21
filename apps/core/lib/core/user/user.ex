@@ -1,7 +1,6 @@
 defmodule Core.User do
-  use Ecto.Schema
+  use Core.Schema
 
-  @timestamp_opts [type: :utc_datetime]
   schema "users" do
     field(:last_name, :string)
     field(:first_name, :string)

@@ -1,8 +1,7 @@
 defmodule Core.Project do
   @moduledoc false
-  use Ecto.Schema
+  use Core.Schema
 
-  @timestamp_opts [type: :utc_datetime]
   schema "projects" do
     field(:project_name, :string)
     field(:description, :string)

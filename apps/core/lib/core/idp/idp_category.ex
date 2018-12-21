@@ -1,7 +1,5 @@
 defmodule Core.IdpCategory do
-  use Ecto.Schema
-
-  @timestamp_opts [type: :utc_datetime]
+  use Core.Schema
 
   # Vulnerability category
   schema "idp_categories" do

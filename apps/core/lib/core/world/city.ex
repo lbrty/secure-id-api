@@ -1,7 +1,6 @@
 defmodule Core.City do
-  use Ecto.Schema
+  use Core.Schema
 
-  @timestamp_opts [type: :utc_datetime]
   schema "cities" do
     field(:title, :string)
 

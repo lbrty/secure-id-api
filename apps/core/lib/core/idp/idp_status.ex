@@ -1,8 +1,7 @@
 defmodule Core.IdpStatus do
   use Ecto.Schema
 
-  @timestamp_opts [type: :utc_datetime]
-  schema "idp_status" do
+  schema "idp_statuses" do
     field(:title, :string)
 
     timestamps()
