@@ -8,6 +8,6 @@ defmodule Core.Repo.Migrations.CreateTagsTable do
       timestamps()
     end
 
-    create unique_index(:tags, [:title])
+    create unique_index(:tags, [:name])
   end
 end
