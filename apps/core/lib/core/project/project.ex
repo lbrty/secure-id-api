@@ -1,6 +1,7 @@
 defmodule Core.Project do
   @moduledoc false
   use Core.Schema
+  import Ecto.Changeset
 
   schema "projects" do
     field(:project_name, :string)
@@ -10,5 +11,17 @@ defmodule Core.Project do
     has_many(:permissions, Core.Permission)
 
     timestamps()
+  end
+
+  @doc false
+  def changeset(params) do
+    %Core.Project{} |> changeset(params)
+  end
+
+  @doc false
+  def changeset(%Core.Project{} = project, params) do
+    project
+    |> cast(params, [:project_name, :description])
+    |> validate_required([:project_name, :description])
   end
 end
