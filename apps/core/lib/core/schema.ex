@@ -6,6 +6,8 @@ defmodule Core.Schema do
   defmacro __using__(_) do
     quote do
       use Ecto.Schema
+
+      # Set all datetimes to UTC by default
       @timestamp_opts [type: :utc_datetime]
     end
   end
