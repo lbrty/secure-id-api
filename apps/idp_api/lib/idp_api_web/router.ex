@@ -12,5 +12,5 @@ defmodule IdpApiWeb.Router do
   forward "/graphiql",
     Absinthe.Plug.GraphiQL,
     schema: IdpApiWeb.Schema,
-    interface: :simple
+    interface: :playground
 end
