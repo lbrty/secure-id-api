@@ -9,13 +9,15 @@ defmodule Core.ProjectActions do
   end
 
   def update(%{id: id, project: project_params}) do
-    Repo.get!(Project, id)
+    Project
+    |> Repo.get!(id)
     |> Project.changeset(project_params)
     |> Repo.update
   end
 
   def delete(%{id: id}) do
-    Repo.get!(Project, id)
+    Project
+    |> Repo.get!(id)
     |> Repo.delete
   end
 end
