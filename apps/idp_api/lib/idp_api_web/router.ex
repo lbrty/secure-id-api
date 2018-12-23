@@ -9,7 +9,7 @@ defmodule IdpApiWeb.Router do
     Absinthe.Plug,
     init_opts: [schema: IdpApiWeb.Schema]
 
-  forward "/graphiql",
+  forward "/playground",
     Absinthe.Plug.GraphiQL,
     schema: IdpApiWeb.Schema,
     interface: :playground
