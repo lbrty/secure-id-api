@@ -20,6 +20,7 @@ defmodule IdpApiWeb.Schema do
 
   mutation do
     import_fields :project_mutations
-    import_fields :idp_mutations
+    import_fields :idp_status_mutations
+    import_fields :idp_category_mutations
   end
 end
