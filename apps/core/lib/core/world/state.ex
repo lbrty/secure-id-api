@@ -23,5 +23,6 @@ defmodule Core.State do
     state
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
+    |> foreign_key_constraint(:state_id)
   end
 end
