@@ -1,7 +1,8 @@
 defmodule Core.WorldActions do
   alias Core.Repo
-  alias Core.Country
+  alias Core.{Country, State, City}
 
+  # Country actions
   def create_country(params) do
     params
     |> Country.changeset
@@ -17,6 +18,26 @@ defmodule Core.WorldActions do
 
   def delete_country(%{id: id}) do
     Country
+    |> Repo.get!(id)
+    |> Repo.delete
+  end
+
+  # State actions
+  def create_state(params) do
+    params
+    |> State.changeset
+    |> Repo.insert!
+  end
+
+  def update_state(%{id: id, state: params}) do
+    State
+    |> Repo.get!(id)
+    |> State.changeset(params)
+    |> Repo.update
+  end
+
+  def delete_state(%{id: id}) do
+    State
     |> Repo.get!(id)
     |> Repo.delete
   end
