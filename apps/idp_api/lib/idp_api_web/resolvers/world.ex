@@ -1,7 +1,5 @@
 defmodule IdpApiWeb.Resolvers.World do
-  alias Core.Repo
-  alias Core.{Country, State, City}
-  alias Core.WorldActions
+  alias Core.{Repo, Country, State, City, WorldActions}
 
   ###################
   # Country resolvers
