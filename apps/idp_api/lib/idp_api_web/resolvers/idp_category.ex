@@ -2,7 +2,7 @@ defmodule IdpApiWeb.Resolvers.IdpCategory do
   alias Core.{IdpCategory, CategoryActions}
 
   def list(_parent, _args, _resolution) do
-    {:ok, IdpCategory |> Core.Repo.all}
+    {:ok, IdpCategory |> Repo.all}
   end
 
   def create_category(_parent, args, _resolution) do

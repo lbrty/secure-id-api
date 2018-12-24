@@ -1,9 +1,8 @@
 defmodule IdpApiWeb.Resolvers.Projects do
-  alias Core.Project
-  alias Core.ProjectActions
+  alias Core.{Repo, Project, ProjectActions}
 
   def list(_parent, _args, _resolution) do
-    {:ok, Project |> Core.Repo.all}
+    {:ok, Project |> Repo.all}
   end
 
   def create_project(_parent, args, _resolution) do
