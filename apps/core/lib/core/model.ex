@@ -1,6 +1,8 @@
 defmodule Core.Model do
   @moduledoc """
   Setup common model base for all schema definitions.
+  Also `Ecto.Changeset` is automatically imported so
+  no need to import in child schemas.
   """
 
   defmacro __using__(_) do
