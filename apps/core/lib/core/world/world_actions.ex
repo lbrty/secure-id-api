@@ -1,6 +1,5 @@
 defmodule Core.WorldActions do
-  alias Core.Repo
-  alias Core.{Country, State, City}
+  alias Core.{Repo, Country, State, City}
 
   # Country actions
   def create_country(params) do
