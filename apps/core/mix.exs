@@ -19,7 +19,7 @@ defmodule Core.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :arc_ecto],
       mod: {Core.Application, []}
     ]
   end
@@ -29,7 +29,9 @@ defmodule Core.MixProject do
     [
       {:ecto, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, "~> 0.14"}
+      {:postgrex, "~> 0.14"},
+      {:arc, "~> 0.11.0"},
+      {:arc_ecto, "~> 0.11.1"},
     ]
   end
 
