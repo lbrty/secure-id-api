@@ -7,5 +7,10 @@ defmodule IdpApiWeb.Schema.WorldQueries do
     field :countries, list_of(:country) do
       resolve &World.list_countries/3
     end
+
+    @desc "Get all states"
+    field :states, list_of(:state) do
+      resolve &World.list_states/3
+    end
   end
 end
