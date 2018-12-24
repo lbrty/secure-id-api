@@ -2,6 +2,8 @@ defmodule Core.State do
   @moduledoc false
   use Core.Model
 
+  @required_fields [:title, :country_id]
+
   schema "states" do
     field(:title, :string)
 
@@ -19,7 +21,7 @@ defmodule Core.State do
   @doc false
   def changeset(%Core.State{} = state, params) do
     state
-    |> cast(params, [:title, :country_id])
-    |> validate_required([:title, :country_id])
+    |> cast(params, @required_fields)
+    |> validate_required(@required_fields)
   end
 end
