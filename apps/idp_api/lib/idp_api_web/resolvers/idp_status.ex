@@ -1,6 +1,5 @@
 defmodule IdpApiWeb.Resolvers.IdpStatus do
-  alias Core.Repo
-  alias Core.{IdpStatus, StatusActions}
+  alias Core.{Repo, IdpStatus, StatusActions}
 
   def list(_parent, _args, _resolution) do
     {:ok, IdpStatus |> Repo.all}
