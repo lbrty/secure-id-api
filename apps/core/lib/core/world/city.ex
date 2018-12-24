@@ -9,4 +9,16 @@ defmodule Core.City do
 
     timestamps()
   end
+
+  @doc false
+  def changeset(params) do
+    %Core.City{} |> changeset(params)
+  end
+
+  @doc false
+  def changeset(%Core.City{} = city, params) do
+    city
+    |> cast(params, [:title, :state_id])
+    |> validate_required([:title, :state_id])
+  end
 end
