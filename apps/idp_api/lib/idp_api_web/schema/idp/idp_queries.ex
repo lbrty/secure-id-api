@@ -1,7 +1,6 @@
 defmodule IdpApiWeb.Schema.IdpQueries do
   use Absinthe.Schema.Notation
-  alias IdpApiWeb.Resolvers.IdpCategory
-  alias IdpApiWeb.Resolvers.IdpStatus
+  alias IdpApiWeb.Resolvers.{IdpCategory, IdpStatus}
 
   object :idp_queries do
     @desc "Get vulnerability categories"

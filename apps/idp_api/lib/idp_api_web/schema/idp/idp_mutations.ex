@@ -1,7 +1,6 @@
 defmodule IdpApiWeb.Schema.IdpMutations do
   use Absinthe.Schema.Notation
-  alias IdpApiWeb.Resolvers.IdpCategory
-  alias IdpApiWeb.Resolvers.IdpStatus
+  alias IdpApiWeb.Resolvers.{IdpCategory, IdpStatus}
 
   object :idp_category_mutations do
     @desc "Create category"
