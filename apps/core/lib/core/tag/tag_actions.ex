@@ -1,6 +1,5 @@
 defmodule Core.TagActions do
-  alias Core.Repo
-  alias Core.Tag
+  alias Core.{Repo, Tag}
 
   def create(params) do
     params
