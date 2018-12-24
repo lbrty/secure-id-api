@@ -8,4 +8,7 @@ config :logger, level: :debug
 ## Repo
 config :core, ecto_repos: [Core.Repo]
 
+config :arc,
+  storage: Arc.Storage.Local
+
 import_config "#{Mix.env}.exs"
