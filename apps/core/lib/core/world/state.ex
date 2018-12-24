@@ -1,6 +1,6 @@
 defmodule Core.State do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
 
   schema "states" do
     field(:title, :string)

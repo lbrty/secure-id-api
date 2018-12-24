@@ -1,6 +1,6 @@
 defmodule Core.User do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
 
   schema "users" do
     field(:last_name, :string)

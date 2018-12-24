@@ -1,6 +1,6 @@
 defmodule Core.Country do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
 
   schema "countries" do
     field(:title, :string)

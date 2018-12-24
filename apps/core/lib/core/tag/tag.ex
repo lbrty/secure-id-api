@@ -1,6 +1,6 @@
 defmodule Core.Tag do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
   import Ecto.Changeset
 
   schema "tags" do

@@ -1,6 +1,6 @@
 defmodule Core.IdpCategory do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
   import Ecto.Changeset
 
   # Vulnerability category

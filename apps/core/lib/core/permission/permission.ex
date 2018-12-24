@@ -1,6 +1,6 @@
 defmodule Core.Permission do
   @moduledoc false
-  use Ecto.Schema
+  use Core.Model
 
   schema "permissions" do
     # General purpose permissions

@@ -1,6 +1,6 @@
 defmodule Core.IdpsTags do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
 
   # This is just a join table for m2m
   # relationship between Idps and tags.

@@ -1,6 +1,6 @@
 defmodule Core.Idp do
   @moduledoc false
-  use Core.Schema
+  use Core.Model
 
   schema "idps" do
     field(:external_id, Ecto.UUID, autogenerate: true)
