@@ -18,10 +18,16 @@ defmodule IdpApiWeb.Schema do
   import_types IdpApiWeb.Schema.TagQueries
   import_types IdpApiWeb.Schema.TagMutations
 
+  # World imports
+  import_types IdpApiWeb.Schema.WorldTypes
+  import_types IdpApiWeb.Schema.WorldQueries
+  import_types IdpApiWeb.Schema.WorldMutations
+
   query do
     import_fields :project_queries
     import_fields :idp_queries
     import_fields :tag_queries
+    import_fields :world_queries
   end
 
   mutation do
@@ -29,5 +35,6 @@ defmodule IdpApiWeb.Schema do
     import_fields :idp_status_mutations
     import_fields :idp_category_mutations
     import_fields :tag_mutations
+    import_fields :world_mutations
   end
 end
