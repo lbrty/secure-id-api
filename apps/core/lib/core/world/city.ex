@@ -2,6 +2,8 @@ defmodule Core.City do
   @moduledoc false
   use Core.Model
 
+  @required_fields [:title, :state_id]
+
   schema "cities" do
     field(:title, :string)
 
@@ -18,7 +20,7 @@ defmodule Core.City do
   @doc false
   def changeset(%Core.City{} = city, params) do
     city
-    |> cast(params, [:title, :state_id])
-    |> validate_required([:title, :state_id])
+    |> cast(params, @required_fields)
+    |> validate_required(@required_fields)
   end
 end
