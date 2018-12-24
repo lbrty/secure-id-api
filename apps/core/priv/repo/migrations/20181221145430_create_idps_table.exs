@@ -1,6 +1,5 @@
 defmodule Core.Repo.Migrations.CreateIdpsTable do
   use Ecto.Migration
-  @timestamp_opts [type: :utc_datetime]
 
   def change do
     create table(:idps) do
