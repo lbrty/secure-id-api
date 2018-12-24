@@ -9,4 +9,16 @@ defmodule Core.Country do
 
     timestamps()
   end
+
+  @doc false
+  def changeset(params) do
+    %Core.Country{} |> changeset(params)
+  end
+
+  @doc false
+  def changeset(%Core.Country{} = country, params) do
+    country
+    |> cast(params, [:title])
+    |> validate_required([:title])
+  end
 end
