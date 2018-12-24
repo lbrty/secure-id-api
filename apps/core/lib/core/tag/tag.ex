@@ -5,6 +5,8 @@ defmodule Core.Tag do
 
   schema "tags" do
     field(:name, :string)
+
+    timestamps()
   end
 
   @doc false
@@ -15,7 +17,7 @@ defmodule Core.Tag do
   @doc false
   def changeset(%Core.Tag{} = tag, params) do
     tag
-    |> cast(params, [:title])
-    |> validate_required([:title])
+    |> cast(params, [:name])
+    |> validate_required([:name])
   end
 end
