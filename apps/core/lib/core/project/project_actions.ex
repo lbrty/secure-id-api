@@ -1,6 +1,5 @@
 defmodule Core.ProjectActions do
-  alias Core.Repo
-  alias Core.Project
+  alias Core.{Repo, Project}
 
   def create(params) do
     params
