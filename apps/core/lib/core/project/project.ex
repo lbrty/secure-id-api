@@ -1,7 +1,6 @@
 defmodule Core.Project do
   @moduledoc false
   use Core.Model
-  import Ecto.Changeset
 
   schema "projects" do
     field(:project_name, :string)

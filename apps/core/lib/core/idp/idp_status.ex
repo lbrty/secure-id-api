@@ -1,7 +1,6 @@
 defmodule Core.IdpStatus do
   @moduledoc false
   use Core.Model
-  import Ecto.Changeset
 
   schema "idp_statuses" do
     field(:title, :string)

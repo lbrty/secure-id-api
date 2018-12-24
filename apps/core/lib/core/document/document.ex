@@ -1,7 +1,6 @@
 defmodule Core.Document do
   use Core.Model
   use Arc.Ecto.Schema
-  import Ecto.Changeset
 
   @required_fields [:original_name, :document, :idp]
 
