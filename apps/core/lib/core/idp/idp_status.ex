@@ -15,8 +15,8 @@ defmodule Core.IdpStatus do
   end
 
   @doc false
-  def changeset(%Core.IdpStatus{} = project, params) do
-    project
+  def changeset(%Core.IdpStatus{} = status, params) do
+    status
     |> cast(params, [:title])
     |> validate_required([:title])
   end
