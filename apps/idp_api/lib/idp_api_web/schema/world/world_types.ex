@@ -11,6 +11,11 @@ defmodule IdpApiWeb.Schema.WorldTypes do
     field :country_id, :integer
   end
 
+  input_object :update_city_params do
+    field :title, :string
+    field :state_id, :integer
+  end
+
   @desc "Country"
   object :country do
     field :id, :id
@@ -23,5 +28,12 @@ defmodule IdpApiWeb.Schema.WorldTypes do
     field :id, :id
     field :title, :string
     field :country, :country, resolve: assoc(:country)
+  end
+
+  @desc "City"
+  object :city do
+    field :id, :id
+    field :title, :string
+    field :state, :state, resolve: assoc(:state)
   end
 end
