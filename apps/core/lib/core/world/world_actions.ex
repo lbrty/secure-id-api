@@ -41,4 +41,24 @@ defmodule Core.WorldActions do
     |> Repo.get!(id)
     |> Repo.delete
   end
+
+  # City actions
+  def create_city(params) do
+    params
+    |> City.changeset
+    |> Repo.insert!
+  end
+
+  def update_city(%{id: id, city: params}) do
+    City
+    |> Repo.get!(id)
+    |> City.changeset(params)
+    |> Repo.update
+  end
+
+  def delete_city(%{id: id}) do
+    City
+    |> Repo.get!(id)
+    |> Repo.delete
+  end
 end
