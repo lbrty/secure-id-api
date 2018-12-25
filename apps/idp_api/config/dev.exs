@@ -13,6 +13,9 @@ config :idp_api, IdpApiWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+config :idp_api, IdpApi.Guardian,
+  issuer: "idp_api"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
