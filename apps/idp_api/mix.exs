@@ -45,6 +45,7 @@ defmodule IdpApi.MixProject do
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_ecto, "~> 0.1.3"},
       {:poison, "~> 3.1.0"},
+      {:guardian, "~> 1.0"},
 
       # Add core module, so we can
       # work with database.
