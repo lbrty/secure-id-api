@@ -28,7 +28,7 @@ defmodule Core.User do
 
   @doc false
   def changeset(user, params) do
-    cast(user, params, ~w(email password))
+    cast(user, params, ~w(email password first_name last_name is_active is_admin))
     |> validate_required([:email, :password])
     |> validate_format(:email, ~r/.*@.*/)
     |> validate_length(:password, min: 8)
