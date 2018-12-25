@@ -23,11 +23,22 @@ defmodule IdpApiWeb.Schema do
   import_types IdpApiWeb.Schema.WorldQueries
   import_types IdpApiWeb.Schema.WorldMutations
 
+  # User imports
+  import_types IdpApiWeb.Schema.PermissionTypes
+  # import_types IdpApiWeb.Schema.UserQueries
+  # import_types IdpApiWeb.Schema.UserMutations
+
+  # User imports
+  import_types IdpApiWeb.Schema.UserTypes
+  import_types IdpApiWeb.Schema.UserQueries
+  import_types IdpApiWeb.Schema.UserMutations
+
   query do
     import_fields :project_queries
     import_fields :idp_queries
     import_fields :tag_queries
     import_fields :world_queries
+    import_fields :user_queries
   end
 
   mutation do
@@ -36,5 +47,6 @@ defmodule IdpApiWeb.Schema do
     import_fields :idp_category_mutations
     import_fields :tag_mutations
     import_fields :world_mutations
+    import_fields :user_mutations
   end
 end
