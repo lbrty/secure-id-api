@@ -20,4 +20,25 @@ defmodule Core.User do
 
     timestamps()
   end
+
+  @doc false
+  def changeset(params) do
+    %Core.User{} |> changeset(params)
+  end
+
+  @doc false
+  def changeset(user, params) do
+    cast(user, params, ~w(email password))
+    |> validate_required([:email, :password])
+    |> validate_format(:email, ~r/.*@.*/)
+    |> validate_length(:password, min: 8)
+    |> unique_constraint(:email)
+    |> put_password_hash()
+  end
+
+  defp put_password_hash(%{changes: %{password: password}} = changeset) do
+    put_change(changeset, :password_hash, Argon2.hash_pwd_salt(password))
+  end
+
+  defp put_password_hash(%{changes: %{}} = changeset), do: changeset
 end
