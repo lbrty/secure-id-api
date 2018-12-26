@@ -3,6 +3,7 @@ defmodule IdpApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug IdpApiWeb.Context
   end
 
   forward "/api",
