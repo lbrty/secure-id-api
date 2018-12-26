@@ -1,8 +1,8 @@
 defmodule IdpApiWeb.Resolvers.User do
-  alias Core.{Repo, UserActions, User}
+  alias Core.UserActions
 
   def list(_parent, _args, _resolution) do
-    {:ok, User |> Repo.all}
+    {:ok, UserActions.list()}
   end
 
   def create_user(_parent, args, _resolution) do
