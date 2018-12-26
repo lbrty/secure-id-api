@@ -1,6 +1,9 @@
 defmodule Core.StatusActions do
-  alias Core.Repo
-  alias Core.IdpStatus
+  alias Core.{Repo, IdpStatus}
+
+  def list() do
+    IdpStatus |> Repo.all
+  end
 
   def create(params) do
     params

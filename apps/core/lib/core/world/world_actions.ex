@@ -2,6 +2,10 @@ defmodule Core.WorldActions do
   alias Core.{Repo, Country, State, City}
 
   # Country actions
+  def list_countries() do
+    Country |> Repo.all
+  end
+
   def create_country(params) do
     params
     |> Country.changeset
@@ -22,6 +26,10 @@ defmodule Core.WorldActions do
   end
 
   # State actions
+  def list_states() do
+    State |> Repo.all
+  end
+
   def create_state(params) do
     params
     |> State.changeset
@@ -42,6 +50,10 @@ defmodule Core.WorldActions do
   end
 
   # City actions
+  def list_cities() do
+    City |> Repo.all
+  end
+
   def create_city(params) do
     params
     |> City.changeset

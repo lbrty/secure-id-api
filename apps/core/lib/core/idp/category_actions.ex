@@ -1,6 +1,9 @@
 defmodule Core.CategoryActions do
-  alias Core.Repo
-  alias Core.IdpCategory
+  alias Core.{Repo, IdpCategory}
+
+  def list() do
+    IdpCategory |> Repo.all
+  end
 
   def create(params) do
     params

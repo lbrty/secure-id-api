@@ -1,6 +1,10 @@
 defmodule Core.TagActions do
   alias Core.{Repo, Tag}
 
+  def list() do
+    Tag |> Repo.all
+  end
+
   def create(params) do
     params
     |> Tag.changeset

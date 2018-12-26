@@ -1,6 +1,10 @@
 defmodule Core.ProjectActions do
   alias Core.{Repo, Project}
 
+  def list() do
+    Project |> Repo.all
+  end
+
   def create(params) do
     params
     |> Project.changeset
