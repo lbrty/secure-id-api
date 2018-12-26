@@ -1,8 +1,8 @@
 defmodule IdpApiWeb.Resolvers.Tags do
-  alias Core.{Repo, Tag, TagActions}
+  alias Core.TagActions
 
   def list(_parent, _args, _resolution) do
-    {:ok, Tag |> Repo.all}
+    {:ok, TagActions.list()}
   end
 
   def create_tag(_parent, args, _resolution) do

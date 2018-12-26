@@ -1,9 +1,9 @@
 defmodule IdpApiWeb.Resolvers.World do
-  alias Core.{Repo, Country, State, City, WorldActions}
+  alias Core.WorldActions
 
   # Country resolvers
   def list_countries(_parent, _args, _resolution) do
-    {:ok, Country |> Repo.all}
+    {:ok, WorldActions.list_countries()}
   end
 
   def create_country(_parent, args, _resolution) do
@@ -20,7 +20,7 @@ defmodule IdpApiWeb.Resolvers.World do
 
   # State resolvers
   def list_states(_parent, _args, _resolution) do
-    {:ok, State |> Repo.all}
+    {:ok, WorldActions.list_states()}
   end
 
   def create_state(_parent, args, _resolution) do
@@ -37,7 +37,7 @@ defmodule IdpApiWeb.Resolvers.World do
 
   # City resolvers
   def list_cities(_parent, _args, _resolution) do
-    {:ok, City |> Repo.all}
+    {:ok, WorldActions.list_cities()}
   end
 
   def create_city(_parent, args, _resolution) do
