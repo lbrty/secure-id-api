@@ -14,6 +14,14 @@ config :idp_api, IdpApiWeb.Endpoint,
   render_errors: [view: IdpApiWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: IdpApi.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :idp_api, IdpApi.Guardian,
+  issuer: "idp_api",
+  varify_module: Guardian.JWT,
+  ttl: {7, :days},
+  allow_drift: 1000,
+  verify_issuer: true,
+  secret_key: System.get_env("SECRET_KEY")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
