@@ -6,12 +6,14 @@ defmodule IdpApiWeb.Router do
     plug IdpApiWeb.Context
   end
 
-  forward "/api",
-    Absinthe.Plug,
-    init_opts: [schema: IdpApiWeb.Schema]
+  scope "/" do
+    pipe_through :api
 
-  forward "/playground",
-    Absinthe.Plug.GraphiQL,
-    schema: IdpApiWeb.Schema,
-    interface: :playground
+    forward "/api", Absinthe.Plug,
+      schema: IdpApiWeb.Schema
+
+    forward "/playground", Absinthe.Plug.GraphiQL,
+      schema: IdpApiWeb.Schema,
+      interface: :playground
+  end
 end
