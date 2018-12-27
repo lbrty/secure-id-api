@@ -2,16 +2,15 @@ defmodule IdpApiWeb.Context do
   @behaviour Plug
 
   import Plug.Conn
-  import Ecto.Query, only: [where: 2]
-
-  alias Core.{Repo, User}
+  alias Core.{Repo, UserActions}
+  alias IdpApi.Guardian
 
   def init(opts), do: opts
 
   def call(conn, _) do
     case build_context(conn) do
       {:ok, context} ->
-        put_private(conn, :absinthe, %{context: context})
+        Absinthe.Plug.put_options(conn, context: context)
 
       _ ->
         conn
@@ -24,16 +23,20 @@ defmodule IdpApiWeb.Context do
 
       {:ok, %{current_user: current_user, token: token}}
 
+    else
+      # In case if no token found and no headers set
+      # we just return empty context.
+      _ -> %{}
     end
   end
 
   defp authorize(token) do
-    User
-    |> where(token: ^token)
-    |> Repo.one
-    |> case do
-      nil -> {:error, "Invalid authorization token"}
-      user -> {:ok, user}
+    case Guardian.decode_and_verify(token) do
+      {:ok, %{"sub" => user_id}} ->
+        {:ok, UserActions.get_by_id(user_id)}
+
+      {:error, _} ->
+        {:error, "Invalid token"}
     end
   end
 end
