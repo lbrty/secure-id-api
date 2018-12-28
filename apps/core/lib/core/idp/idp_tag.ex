@@ -1,4 +1,4 @@
-defmodule Core.IdpsTags do
+defmodule Core.IdpTag do
   @moduledoc false
   use Core.Model
 
