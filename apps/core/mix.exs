@@ -33,7 +33,7 @@ defmodule Core.MixProject do
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.1"},
       {:comeonin, "~> 4.1"},
-      {:argon2_elixir, "~> 1.3"},
+      {:argon2_elixir, "~> 1.3"}
     ]
   end
 

@@ -6,12 +6,12 @@ defmodule Core.UserActions do
   end
 
   def list() do
-    User |> Repo.all
+    User |> Repo.all()
   end
 
   def create_user(params) do
     params
-    |> User.changeset
-    |> Repo.insert!
+    |> User.changeset()
+    |> Repo.insert!()
   end
 end

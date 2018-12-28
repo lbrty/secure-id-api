@@ -9,9 +9,10 @@ defmodule Core.DocumentUploader do
 
   # Whitelist file extensions:
   def validate({file, _}) do
-    ext = file.file_name
-    |> String.downcase
-    |> Path.extname()
+    ext =
+      file.file_name
+      |> String.downcase()
+      |> Path.extname()
 
     @whitelist |> Enum.member?(ext)
   end

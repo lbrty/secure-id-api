@@ -1,5 +1,6 @@
 defmodule Core.Support do
   use Core.Model
+
   alias Core.{
     Idp,
     User,

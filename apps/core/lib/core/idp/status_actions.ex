@@ -2,25 +2,25 @@ defmodule Core.StatusActions do
   alias Core.{Repo, IdpStatus}
 
   def list() do
-    IdpStatus |> Repo.all
+    IdpStatus |> Repo.all()
   end
 
   def create(params) do
     params
-    |> IdpStatus.changeset
-    |> Repo.insert!
+    |> IdpStatus.changeset()
+    |> Repo.insert!()
   end
 
   def update(%{id: id, status: params}) do
     IdpStatus
     |> Repo.get!(id)
     |> IdpStatus.changeset(params)
-    |> Repo.update
+    |> Repo.update()
   end
 
   def delete(%{id: id}) do
     IdpStatus
     |> Repo.get!(id)
-    |> Repo.delete
+    |> Repo.delete()
   end
 end

@@ -1,6 +1,7 @@
 defmodule Core.Idp do
   @moduledoc false
   use Core.Model
+
   alias Core.{
     IdpStatus,
     User,
