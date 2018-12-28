@@ -9,7 +9,7 @@ defmodule Core.Support do
     SupportSphere
   }
 
-  schema "support" do
+  schema "supports" do
     # Can be one of `s` - Social, l - Judicial
     field(:type, :string)
 
