@@ -8,6 +8,7 @@ defmodule IdpApiWeb.Schema.ProjectMutations do
       arg :project_name, non_null(:string)
       arg :description, non_null(:string)
 
+      middleware IdpApiWeb.Middleware.AdminOnly
       resolve &Projects.create_project/2
     end
 
@@ -16,6 +17,7 @@ defmodule IdpApiWeb.Schema.ProjectMutations do
       arg :id, non_null(:integer)
       arg :project, :update_project_params
 
+      middleware IdpApiWeb.Middleware.AdminOnly
       resolve &Projects.update_project/2
     end
 
@@ -23,6 +25,7 @@ defmodule IdpApiWeb.Schema.ProjectMutations do
     field :delete_project, type: :project do
       arg :id, non_null(:integer)
 
+      middleware IdpApiWeb.Middleware.AdminOnly
       resolve &Projects.delete_project/2
     end
   end
