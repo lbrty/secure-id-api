@@ -1,19 +1,30 @@
 defmodule IdpApiWeb.Resolvers.Projects do
   alias Core.ProjectActions
+  alias IdpApiWeb.Helpers.AuthHelpers
 
-  def list(_parent, _args, _resolution) do
+  @not_authorized_error {:error, "Not Authorized"}
+
+  def list(_parent, %{context: %{current_user: _user}}) do
     {:ok, ProjectActions.list()}
   end
 
-  def create_project(_parent, args, _resolution) do
-    {:ok, ProjectActions.create(args)}
+  def list(_parent, _args), do: @not_authorized_error
+
+  def create_project(args, %{context: %{current_user: user}}) do
+    if AuthHelpers.is_admin(user) do
+      {:ok, ProjectActions.create(args)}
+    else
+      @not_authorized_error
+    end
   end
 
-  def update_project(_parent, args, _resolution) do
+  def create_project(_args, _context), do: @not_authorized_error
+
+  def update_project(args, _context) do
     ProjectActions.update(args)
   end
 
-  def delete_project(_parent, args, _resolution) do
+  def delete_project(args, _context) do
     ProjectActions.delete(args)
   end
 end

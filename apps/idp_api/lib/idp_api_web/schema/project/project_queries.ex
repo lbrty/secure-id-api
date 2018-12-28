@@ -5,7 +5,7 @@ defmodule IdpApiWeb.Schema.ProjectQueries do
   object :project_queries do
     @desc "Get all projects"
     field :projects, list_of(:project) do
-      resolve &Projects.list/3
+      resolve &Projects.list/2
     end
   end
 end

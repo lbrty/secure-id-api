@@ -17,4 +17,7 @@ defmodule IdpApiWeb.Helpers.AuthHelpers do
         {:error, "User not found"}
     end
   end
+
+  def is_admin(%{is_admin: is_admin}), do: is_admin
+  def is_admin(_), do: false
 end
