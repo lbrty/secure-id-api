@@ -1,5 +1,6 @@
 defmodule Core.ProjectActions do
-  alias Core.{Repo, Project}
+  alias Core.{Repo, Project, Idp}
+  import Ecto.Query
 
   def list() do
     Project |> Repo.all
@@ -22,5 +23,12 @@ defmodule Core.ProjectActions do
     Project
     |> Repo.get!(id)
     |> Repo.delete
+  end
+
+  def people_count(project) do
+    Repo.aggregate(
+      from(idp in Idp, where: [project_id: ^project.id]),
+      :count, :id
+    )
   end
 end

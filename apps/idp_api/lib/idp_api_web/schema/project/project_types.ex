@@ -11,5 +11,9 @@ defmodule IdpApiWeb.Schema.ProjectTypes do
     field :id, :id
     field :project_name, :string
     field :description, :string
+
+    field :people_count, :integer do
+      resolve &IdpApiWeb.Resolvers.Projects.people_count/2
+    end
   end
 end

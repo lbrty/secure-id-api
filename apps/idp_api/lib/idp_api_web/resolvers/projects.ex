@@ -17,7 +17,11 @@ defmodule IdpApiWeb.Resolvers.Projects do
     ProjectActions.update(args)
   end
 
-  def delete_project(args, _context) do
+  def delete_project(args, _info) do
     ProjectActions.delete(args)
+  end
+
+  def people_count(_args, %{source: project}) do
+    {:ok, ProjectActions.people_count(project)}
   end
 end
