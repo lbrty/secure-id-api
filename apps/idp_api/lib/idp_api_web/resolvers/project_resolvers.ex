@@ -1,4 +1,4 @@
-defmodule IdpApiWeb.Resolvers.Projects do
+defmodule IdpApiWeb.Resolvers.ProjectResolvers do
   alias Core.ProjectActions
 
   @not_authorized_error {:error, "Not Authorized"}

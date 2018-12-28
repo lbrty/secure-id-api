@@ -1,5 +1,6 @@
 defmodule IdpApiWeb.Schema.ProjectTypes do
   use Absinthe.Schema.Notation
+  alias IdpApiWeb.Resolvers.ProjectResolvers
 
   input_object :update_project_params do
     field :project_name, :string
@@ -13,7 +14,7 @@ defmodule IdpApiWeb.Schema.ProjectTypes do
     field :description, :string
 
     field :people_count, :integer do
-      resolve &IdpApiWeb.Resolvers.Projects.people_count/2
+      resolve &ProjectResolvers.people_count/2
     end
   end
 end
