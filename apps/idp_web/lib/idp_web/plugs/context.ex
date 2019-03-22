@@ -1,4 +1,10 @@
 defmodule IdpWeb.Context do
+  @moduledoc """
+  Prepares and attaches request context to `conn`.
+  At the moment adds authenticated user if token
+  presents in `Authotization` header and sets
+  it to empty map if user is unauthorized.
+  """
   @behaviour Plug
 
   import Plug.Conn
