@@ -25,7 +25,7 @@ defmodule IdpWeb.Endpoint do
   plug Plug.Logger
 
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
+    parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
@@ -35,10 +35,11 @@ defmodule IdpWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
+  signing_salt = System.get_env("SIGNING_SALT")
   plug Plug.Session,
     store: :cookie,
     key: "_idp_web_key",
-    signing_salt: "jcH8WB3c"
+    signing_salt: "#{signing_salt}"
 
   plug IdpWeb.Router
 end
