@@ -37,6 +37,22 @@ defmodule Idp.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+
+  @doc """
+  Get a single user by email
+
+  ## Examples
+
+      iex> get_by_email("email@example.com")
+      %User{}
+
+      iex> get_by_email("email@unknown.com")
+      nil
+  """
+  def get_by_email(email) do
+    Repo.get_by(User, email: String.downcase(email))
+  end
+
   @doc """
   Creates a user.
 
