@@ -50,6 +50,9 @@ defmodule IdpWeb.MixProject do
       {:absinthe_ecto, "~> 0.1.3"},
       {:dataloader, "~> 1.0.0"},
 
+      # Authentication handling
+      {:guardian, "~> 1.0"},
+
       # Umbrella apps
       {:idp, in_umbrella: true},
       {:auth, in_umbrella: true}
