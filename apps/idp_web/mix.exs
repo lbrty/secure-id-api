@@ -41,9 +41,18 @@ defmodule IdpWeb.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:gettext, "~> 0.11"},
-      {:idp, in_umbrella: true},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+
+      # Absinthe GraphQL
+      {:absinthe, "~> 1.4.0"},
+      {:absinthe_plug, "~> 1.4.0"},
+      {:absinthe_ecto, "~> 0.1.3"},
+      {:dataloader, "~> 1.0.0"},
+
+      # Umbrella apps
+      {:idp, in_umbrella: true},
+      {:auth, in_umbrella: true}
     ]
   end
 
