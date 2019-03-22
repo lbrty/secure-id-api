@@ -1,18 +1,35 @@
 defmodule Auth do
-  @moduledoc """
-  Documentation for Auth.
-  """
+  @moduledoc false
+  import Comeonin.Argon2, only: [checkpw: 2]
+  alias Idp.Users
 
-  @doc """
-  Hello world.
+  def login_with_email_pass(email, given_pass) do
+    user = Users.get_by_email(email)
 
-  ## Examples
+    cond do
+      user && checkpw(given_pass, user.password_hash) ->
+        {:ok, user}
 
-      iex> Auth.hello()
-      :world
+      user ->
+        {:error, :invalid_credentials}
 
-  """
-  def hello do
-    :world
+      true ->
+        {:error, :user_not_found}
+    end
+  end
+
+  def register(data) do
+    user = Users.get_by_email(data.email)
+
+    if user do
+      {:error, :already_exists}
+    else
+      Users.create_user(data)
+      {:ok, %{result: :ok}}
+    end
+  end
+
+  def hash_password(password) do
+    Argon2.hash_pwd_salt(password)
   end
 end
