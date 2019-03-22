@@ -5,9 +5,11 @@ defmodule Idp.Users.User do
   schema "users" do
     field :email, :string
     field :full_name, :string
+    field :password_hash, :string
+    field :password, :string, virtual: true
+
     field :is_active, :boolean, default: false
     field :is_superuser, :boolean, default: false
-    field :password_hash, :string
 
     timestamps()
   end
