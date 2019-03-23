@@ -11,7 +11,7 @@ defmodule IdpWeb.LoginSchemaTest do
         }
       """
 
-      Confetti.Seeds.run()
+      Idp.Seeds.run()
 
       request = post(conn, "/api", %{query: mutation})
       result = json_response(request, 200)
@@ -27,7 +27,7 @@ defmodule IdpWeb.LoginSchemaTest do
         }
       """
 
-      Confetti.Seeds.run()
+      Idp.Seeds.run()
 
       request = post(conn, "/api", %{query: mutation})
       result = json_response(request, 200)
