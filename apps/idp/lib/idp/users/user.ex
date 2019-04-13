@@ -16,7 +16,7 @@ defmodule Idp.Users.User do
   @required_params [
     :email,
     :full_name,
-    :password_hash,
+    :password,
     :is_active,
     :is_superuser
   ]
@@ -24,7 +24,17 @@ defmodule Idp.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, @required_params)
+    |> cast(attrs, @required_params ++ [:password_hash])
     |> validate_required(@required_params)
+    |> validate_format(:email, ~r/.*@.*/)
+    |> validate_length(:password, min: 8)
+    |> unique_constraint(:email)
+    |> put_password_hash()
   end
+
+  defp put_password_hash(%{changes: %{password: password}} = changeset) do
+    put_change(changeset, :password_hash, Auth.hash_password(password))
+  end
+
+  defp put_password_hash(%{changes: %{}} = changeset), do: changeset
 end
