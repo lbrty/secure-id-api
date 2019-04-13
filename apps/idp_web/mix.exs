@@ -24,7 +24,7 @@ defmodule IdpWeb.MixProject do
   def application do
     [
       mod: {IdpWeb.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :absinthe, :absinthe_plug, :auth]
     ]
   end
 
@@ -54,7 +54,6 @@ defmodule IdpWeb.MixProject do
       {:guardian, "~> 1.0"},
 
       # Umbrella apps
-      {:idp, in_umbrella: true},
       {:auth, in_umbrella: true}
     ]
   end
