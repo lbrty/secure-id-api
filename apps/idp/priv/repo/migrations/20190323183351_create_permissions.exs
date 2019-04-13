@@ -11,8 +11,8 @@ defmodule Idp.Repo.Migrations.CreatePermissions do
       add :view_personal, :boolean, default: false, null: false
       add :view_documents, :boolean, default: false, null: false
 
-      add :user_id, references(:users, type: :binary_id, on_delete: :delete_all)
-      add :project_id, references(:projects, type: :binary_id, on_delete: :delete_all)
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :project_id, references(:projects, on_delete: :delete_all)
 
       timestamps()
     end
