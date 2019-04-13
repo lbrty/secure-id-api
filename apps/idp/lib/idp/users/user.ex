@@ -1,6 +1,5 @@
 defmodule Idp.Users.User do
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Idp.Model
 
   schema "users" do
     field :email, :string
@@ -14,10 +13,18 @@ defmodule Idp.Users.User do
     timestamps()
   end
 
+  @required_params [
+    :email,
+    :full_name,
+    :password_hash,
+    :is_active,
+    :is_superuser
+  ]
+
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :full_name, :password_hash, :is_active, :is_superuser])
-    |> validate_required([:email, :full_name, :password_hash, :is_active, :is_superuser])
+    |> cast(attrs, @required_params)
+    |> validate_required(@required_params)
   end
 end

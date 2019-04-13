@@ -1,6 +1,5 @@
 defmodule Idp.Tags.Tag do
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Idp.Model
 
   schema "tags" do
     field :name, :string
