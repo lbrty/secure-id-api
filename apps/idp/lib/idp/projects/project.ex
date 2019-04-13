@@ -1,10 +1,9 @@
 defmodule Idp.Projects.Project do
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Idp.Model
 
   schema "projects" do
-    field :description, :string
     field :name, :string
+    field :description, :string
 
     timestamps()
   end

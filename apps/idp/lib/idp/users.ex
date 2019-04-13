@@ -2,10 +2,7 @@ defmodule Idp.Users do
   @moduledoc """
   The Users context.
   """
-
-  import Ecto.Query, warn: false
-  alias Idp.Repo
-
+  use Idp.Query
   alias Idp.Users.User
 
   @doc """

@@ -2,10 +2,7 @@ defmodule Idp.Tags do
   @moduledoc """
   The Tags context.
   """
-
-  import Ecto.Query, warn: false
-  alias Idp.Repo
-
+  use Idp.Query
   alias Idp.Tags.Tag
 
   @doc """

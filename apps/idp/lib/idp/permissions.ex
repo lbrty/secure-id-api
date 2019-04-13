@@ -2,10 +2,7 @@ defmodule Idp.Permissions do
   @moduledoc """
   The Permissions context.
   """
-
-  import Ecto.Query, warn: false
-  alias Idp.Repo
-
+  use Idp.Query
   alias Idp.Permissions.Permission
 
   @doc """

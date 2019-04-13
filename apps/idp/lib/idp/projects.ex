@@ -2,9 +2,7 @@ defmodule Idp.Projects do
   @moduledoc """
   The Projects context.
   """
-
-  import Ecto.Query, warn: false
-  alias Idp.Repo
+  use Idp.Query
 
   alias Idp.Projects.Project
 
