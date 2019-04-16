@@ -11,7 +11,7 @@ defmodule IdpWeb.Schema.Errors do
   """
   defmacro __using__(_) do
     quote do
-      import ConfettiWeb.Gettext, only: [gettext: 1]
+      import IdpWeb.Gettext, only: [gettext: 1]
 
       @project_not_found {
         :error,
