@@ -1,6 +1,11 @@
 defmodule IdpWeb.LoginSchemaTest do
   use IdpWeb.ConnCase, async: true
 
+  setup context do
+    Idp.Seeds.run()
+    {:ok, context}
+  end
+
   describe "authentication" do
     test "login authenticates user if exists", %{conn: conn} do
       mutation = """
@@ -10,8 +15,6 @@ defmodule IdpWeb.LoginSchemaTest do
           }
         }
       """
-
-      Idp.Seeds.run()
 
       request = post(conn, "/api", %{query: mutation})
       result = json_response(request, 200)
@@ -26,8 +29,6 @@ defmodule IdpWeb.LoginSchemaTest do
           }
         }
       """
-
-      Idp.Seeds.run()
 
       request = post(conn, "/api", %{query: mutation})
       result = json_response(request, 200)
