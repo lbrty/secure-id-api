@@ -12,7 +12,7 @@ defmodule IdpWeb.Schema.ProjectMutations do
       middleware IdpWeb.OnlyActiveUser
       middleware IdpWeb.OnlyAdmin
 
-      resolve ProjectResolvers.create/3
+      resolve &ProjectResolvers.create/3
     end
   end
 end

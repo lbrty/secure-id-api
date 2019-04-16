@@ -19,5 +19,6 @@ defmodule IdpWeb.Schema do
 
   mutation do
     import_fields(:auth_mutations)
+    import_fields(:project_mutations)
   end
 end
