@@ -66,5 +66,8 @@ defmodule IdpWeb.LoginSchemaTest do
         ]
       }
     end
+
+    test "login returns error if user inactive", %{conn: conn} do
+    end
   end
 end
