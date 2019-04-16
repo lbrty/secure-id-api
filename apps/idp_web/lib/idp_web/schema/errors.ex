@@ -5,32 +5,60 @@ defmodule IdpWeb.Schema.Errors do
     * `@project_not_found`,
     * `@membership_exists`,
     * `@already_owner`,
-    * `@permission_denied`
+    * `@permission_denied`,
+    * `@user_not_active`,
+    * `@not_authenticated`
   """
   defmacro __using__(_) do
     quote do
+      import ConfettiWeb.Gettext, only: [gettext: 1]
+
       @project_not_found {
         :error,
-        message: "Project not found",
-        code: :not_found
+        %{
+          message: gettext("Project not found"),
+          code: :not_found
+        }
       }
 
       @membership_exists {
         :error,
-        message: "Membership already exists",
-        code: :membership_exists
+        %{
+          message: gettext("Membership already exists"),
+          code: :membership_exists
+        }
       }
 
       @already_owner {
         :error,
-        message: "User is the owner of project",
-        code: :already_owner
+        %{
+          message: gettext("User is the owner of project"),
+          code: :already_owner
+        }
       }
 
       @permission_denied {
         :error,
-        message: "Permission denied",
-        code: :permission_denied
+        %{
+          message: gettext("Permission denied"),
+          code: :permission_denied
+        }
+      }
+
+      @user_not_active {
+        :error,
+        %{
+          code: :user_not_active,
+          message: gettext("User is not active")
+        }
+      }
+
+      @not_authenticated {
+        :error,
+        %{
+          code: :not_authenticated,
+          message: gettext("Not authenticated")
+        }
       }
     end
   end
