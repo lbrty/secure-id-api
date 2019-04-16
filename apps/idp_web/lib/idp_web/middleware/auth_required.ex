@@ -4,12 +4,12 @@ defmodule IdpWeb.AuthRequired do
   use IdpWeb.Schema.Errors
   alias Absinthe.Resolution
 
-  def call(resolution = %{context: %{user: _}}, _config) do
-    resolution
-  end
-
-  def call(resolution, _config) do
-    resolution
-    |> Resolution.put_result(@not_authenticated)
+  def call(resolution = %{context: context}, _config) do
+    case Map.has_key?(context, :user) do
+      true -> resolution
+      _ ->
+        resolution
+        |> Resolution.put_result(@not_authenticated)
+    end
   end
 end
