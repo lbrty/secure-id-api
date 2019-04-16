@@ -1,4 +1,4 @@
-defmodule ConfettiWeb.OnlyActiveUser do
+defmodule IdpWeb.OnlyActiveUser do
   @moduledoc """
   Middleware checks if user in the current context is
   active before forwarding query further.

@@ -1,4 +1,4 @@
-defmodule ConfettiWeb.AuthRequired do
+defmodule IdpWeb.AuthRequired do
   @behaviour Absinthe.Middleware
 
   use IdpWeb.Schema.Errors
