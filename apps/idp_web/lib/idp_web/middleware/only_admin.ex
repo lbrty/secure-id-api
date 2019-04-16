@@ -1,7 +1,7 @@
 defmodule IdpWeb.OnlyAdmin do
   @moduledoc """
   Middleware checks if user in the current context is
-  active before forwarding query further.
+  superuser before forwarding query further.
   """
   @behaviour Absinthe.Middleware
 
