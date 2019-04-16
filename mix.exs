@@ -5,23 +5,31 @@ defmodule Idp.Umbrella.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options.
-  #
-  # Dependencies listed here are available only for this project
-  # and cannot be accessed from applications inside the apps folder
   defp deps do
-    []
+    [
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:inch_ex, github: "rrrene/inch_ex", only: [:dev, :test]}
+    ]
+  end
+
+  defp aliases do
+    [
+      lint: ["credo --strict", "inch"],
+      fmt: ["format mix.exs \"lib/**/*.{ex,exs}\" \"test/**/*.{ex,exs}\" \"apps/**/*/.{ex,exs}\""],
+      "test.all": [
+        "cmd --app idp --app idp_web mix test --color --trace"
+      ],
+      "test.web": [
+        "cmd --app idp_web mix test --color --trace"
+      ],
+      "test.core": [
+        "cmd --app idp mix test --color --trace"
+      ]
+    ]
   end
 end

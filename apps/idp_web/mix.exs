@@ -54,15 +54,14 @@ defmodule IdpWeb.MixProject do
       {:guardian, "~> 1.0"},
 
       # Umbrella apps
-      {:auth, in_umbrella: true}
+      {:auth, in_umbrella: true},
+      {:idp, in_umbrella: true}
     ]
   end
 
-  # Aliases are shortcuts or tasks specific to the current project.
-  # For example, we extend the test task to create and migrate the database.
-  #
-  # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    [test: ["ecto.create --quiet", "ecto.migrate", "test"]]
+    [
+      test: ["ecto.drop", "ecto.create --quiet", "ecto.migrate", "test"]
+    ]
   end
 end
