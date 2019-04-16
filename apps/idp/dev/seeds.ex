@@ -2,7 +2,7 @@ defmodule Idp.Seeds do
   alias Idp.{Permissions, Projects, Users}
 
   def run() do
-    {:ok, admin} = Users.create_user(%{email: "admin@email.com", full_name: "Admin", password: "12345678", is_superuser: true, is_active: true})
+    Users.create_user(%{email: "admin@email.com", full_name: "Admin", password: "12345678", is_superuser: true, is_active: true})
     {:ok, user1} = Users.create_user(%{email: "user1@email.com", full_name: "User 1", password: "12345678", is_superuser: false, is_active: true})
     {:ok, user2} = Users.create_user(%{email: "user2@email.com", full_name: "User 2", password: "12345678", is_superuser: false, is_active: true})
     {:ok, user3} = Users.create_user(%{email: "user3@email.com", full_name: "User 3", password: "12345678", is_superuser: false, is_active: true})
