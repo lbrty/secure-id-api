@@ -17,7 +17,7 @@ config :idp_web, IdpWeb.Endpoint,
   pubsub: [name: IdpWeb.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :idp_web, IdpWeb.Guardian,
-  issuer: "idp_web",
+  issuer: "idp",
   varify_module: Guardian.JWT,
   ttl: {7, :days},
   allow_drift: 1000,
