@@ -10,4 +10,5 @@ config :idp, Idp.Repo,
   password: "postgres",
   database: "idp_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  migration_timestamps: [type: :utc_datetime]
