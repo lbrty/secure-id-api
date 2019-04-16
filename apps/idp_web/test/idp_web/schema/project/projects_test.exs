@@ -10,7 +10,7 @@ defmodule IdpWeb.ProjectsSchemaTest do
     {:ok, context}
   end
 
-  describe "💼 projects ::" do
+  describe "🚀 projects ::" do
     test "admin users can create projects", %{conn: conn} do
       query = """
         mutation {
@@ -37,7 +37,7 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
-    test "only admin users can see all projects", %{conn: conn} do
+    test "admin users can see all projects", %{conn: conn} do
       query = """
         {
           projects {
@@ -64,13 +64,13 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
-    # test "only admin users can edit projects", %{conn: conn} do
+    # test "admin users can update projects", %{conn: conn} do
     # end
 
-    # test "only admin users can delete projects", %{conn: conn} do
+    # test "admin users can delete projects", %{conn: conn} do
     # end
 
-    # test "only users can see shared projects", %{conn: conn} do
+    # test "users can see shared projects", %{conn: conn} do
     # end
 
     test "regular users can not create project", %{conn: conn} do
@@ -108,10 +108,59 @@ defmodule IdpWeb.ProjectsSchemaTest do
     # test "regular users can not delete project", %{conn: conn} do
     # end
 
-    # test "inactive users can not performs any actions", %{conn: conn} do
-    # end
+    test "inactive users can not perform any actions", %{conn: conn} do
+      query = """
+        {
+          projects {
+            name
+          }
+        }
+      """
 
-    # test "anonymous users can not see any project", %{conn: conn} do
-    # end
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("inactive@email.com"))
+        |> post("/api/graphql", %{query: query})
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"projects" => nil},
+        "errors" => [
+          %{
+            "code" => "user_not_active",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "User is not active",
+            "path" => ["projects"]
+          }
+        ]
+      }
+    end
+
+    test "anonymous users can not see any project", %{conn: conn} do
+      query = """
+        {
+          projects {
+            name
+          }
+        }
+      """
+
+      result =
+        conn
+        |> post("/api/graphql", %{query: query})
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"projects" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["projects"]
+          }
+        ]
+      }
+    end
   end
 end
