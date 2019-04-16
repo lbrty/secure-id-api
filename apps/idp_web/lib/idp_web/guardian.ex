@@ -14,7 +14,7 @@ defmodule IdpWeb.Guardian do
   def subject_for_token(_, _), do: {:error, :not_found}
 
   def resource_from_claims(%{"sub" => user_id}) do
-    {:ok, Users.get_user!(user_id)}
+    {:ok, Users.get_user(user_id)}
   end
 
   def resource_from_claims(_claims), do: {:error, :no_claims}

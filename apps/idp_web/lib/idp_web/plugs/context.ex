@@ -15,7 +15,8 @@ defmodule IdpWeb.Context do
   def init(opts), do: opts
 
   def call(conn, _) do
-    Absinthe.Plug.put_options(conn, context: build_context(conn))
+    conn
+    |> Absinthe.Plug.put_options(context: build_context(conn))
   end
 
   defp build_context(conn) do
@@ -34,7 +35,7 @@ defmodule IdpWeb.Context do
   defp authorize(token) do
     case Guardian.decode_and_verify(token) do
       {:ok, %{"sub" => user_id}} ->
-        {:ok, Users.get_user!(user_id)}
+        {:ok, Users.get_user(user_id)}
 
       {:error, _} ->
         {:error, :invalid_token}
