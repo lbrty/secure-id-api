@@ -44,6 +44,14 @@ defmodule IdpWeb.Schema.Errors do
         }
       }
 
+      @invalid_credentials {
+        :error,
+        %{
+          code: :invalid_credentials,
+          message: gettext("Invalid credentials")
+        }
+      }
+
       @user_already_exists {
         :error,
         %{
