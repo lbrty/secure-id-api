@@ -4,7 +4,6 @@ defmodule IdpWeb.Schema.Errors do
 
     * `@project_not_found`,
     * `@membership_exists`,
-    * `@already_owner`,
     * `@permission_denied`,
     * `@user_not_active`,
     * `@not_authenticated`
@@ -26,14 +25,6 @@ defmodule IdpWeb.Schema.Errors do
         %{
           message: gettext("Membership already exists"),
           code: :membership_exists
-        }
-      }
-
-      @already_owner {
-        :error,
-        %{
-          message: gettext("User is the owner of project"),
-          code: :already_owner
         }
       }
 
