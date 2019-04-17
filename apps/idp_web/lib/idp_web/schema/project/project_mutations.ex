@@ -14,5 +14,28 @@ defmodule IdpWeb.Schema.ProjectMutations do
 
       resolve &ProjectResolvers.create/3
     end
+
+    @desc "Update project"
+    field :update_project, :project do
+      arg :project_id, non_null(:integer)
+      arg :project, :update_project_params
+
+      middleware IdpWeb.AuthRequired
+      middleware IdpWeb.OnlyActiveUser
+      middleware IdpWeb.OnlyAdmin
+
+      resolve &ProjectResolvers.update/3
+    end
+
+    @desc "Delete project"
+    field :delete_project, :project do
+      arg :project_id, non_null(:integer)
+
+      middleware IdpWeb.AuthRequired
+      middleware IdpWeb.OnlyActiveUser
+      middleware IdpWeb.OnlyAdmin
+
+      resolve &ProjectResolvers.delete/3
+    end
   end
 end
