@@ -34,7 +34,6 @@ defmodule Idp.Users do
   """
   def get_user(id), do: Repo.get(User, id)
 
-
   @doc """
   Get a single user by email
 
