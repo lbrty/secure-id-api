@@ -26,7 +26,7 @@ defmodule IdpWeb.LoginSchemaTest do
       assert result["data"]["login"]["token"] != nil
     end
 
-    test "login returns errors if credentials are wrong", %{conn: conn} do
+    test "login returns error if credentials are wrong", %{conn: conn} do
       mutation = %{
         query: """
         mutation {
