@@ -1,8 +1,6 @@
 defmodule Idp.EctoHelpers do
-  alias Ecto.Changeset
-
   @doc """
-  Transform `Changeset` errors to a list of
+  Transform `%Ecto.Changeset{}` errors to a list of
   maps containing field name on which validation
   error happened and it's formatted message
 
@@ -17,7 +15,7 @@ defmodule Idp.EctoHelpers do
   ]
   ```
   """
-  def to_api_errors(changeset = %Changeset{}) do
+  def to_api_errors(changeset = %Ecto.Changeset{}) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->
         String.replace(acc, "%{#{key}}", to_string(value))
