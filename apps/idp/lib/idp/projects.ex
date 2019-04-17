@@ -22,18 +22,17 @@ defmodule Idp.Projects do
   @doc """
   Gets a single project.
 
-  Raises `Ecto.NoResultsError` if the Project does not exist.
+  Returns `nil` if the Project does not exist.
 
   ## Examples
 
-      iex> get_project!(123)
+      iex> get_project(123)
       %Project{}
 
-      iex> get_project!(456)
-      ** (Ecto.NoResultsError)
-
+      iex> get_project(456)
+      nil
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project(id), do: Repo.get(Project, id)
 
   @doc """
   Creates a project.
@@ -45,7 +44,6 @@ defmodule Idp.Projects do
 
       iex> create_project(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
-
   """
   def create_project(attrs \\ %{}) do
     %Project{}
