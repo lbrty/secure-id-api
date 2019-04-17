@@ -14,6 +14,9 @@ defmodule IdpWeb.Schema.AuthResolvers do
   end
 
   def register(user, _info) do
-    Auth.register(user)
+    case Auth.register(user) do
+      {:error, :already_exists} -> @user_already_exists
+      result -> result
+    end
   end
 end
