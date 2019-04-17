@@ -64,11 +64,83 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
-    # test "admin users can update projects", %{conn: conn} do
-    # end
+    test "admin users can update projects", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
 
-    # test "admin users can delete projects", %{conn: conn} do
-    # end
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+        |> String.to_integer()
+
+      query = %{
+        query: """
+        mutation {
+          updateProject(
+            project_id: #{pid},
+            project: {
+              name: "Stars ✨ and rockets 🚀",
+              description: "🌏"
+            }
+          ) {
+            name
+            description
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api/graphql", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "updateProject" => %{
+            "name" => "Stars ✨ and rockets 🚀",
+            "description" => "🌏"
+          }
+        }
+      }
+    end
+
+    test "admin users can delete projects", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+        |> String.to_integer()
+
+      query = %{
+        query: """
+        mutation {
+          deleteProject(project_id: #{pid}) {
+            id
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api/graphql", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "deleteProject" => %{
+            "id" => "#{pid}"
+          }
+        }
+      }
+    end
 
     # test "users can see shared projects", %{conn: conn} do
     # end
@@ -102,11 +174,92 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
-    # test "regular users can not update project", %{conn: conn} do
-    # end
+    test "regular users can not update project", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
 
-    # test "regular users can not delete project", %{conn: conn} do
-    # end
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+        |> String.to_integer()
+
+      query = %{
+        query: """
+        mutation {
+          updateProject(
+            project_id: #{pid},
+            project: {
+              name: "Stars ✨ and rockets 🚀",
+              description: "🌏"
+            }
+          ) {
+            name
+            description
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api/graphql", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateProject" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["updateProject"]
+          }
+        ]
+      }
+    end
+
+    test "regular users can not delete project", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+        |> String.to_integer()
+
+      query = %{
+        query: """
+        mutation {
+          deleteProject(project_id: #{pid}) {
+            id
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api/graphql", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"deleteProject" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["deleteProject"]
+          }
+        ]
+      }
+    end
 
     test "inactive users can not perform any actions", %{conn: conn} do
       query = """
@@ -162,5 +315,26 @@ defmodule IdpWeb.ProjectsSchemaTest do
         ]
       }
     end
+
+  end
+
+  defp get_project(conn) do
+    query = %{
+      query: """
+      {
+        projects {
+          id
+          name
+        }
+      }
+      """
+    }
+
+    conn
+    |> post("/api/graphql", query)
+    |> json_response(200)
+    |> Map.get("data")
+    |> Map.get("projects")
+    |> hd()
   end
 end
