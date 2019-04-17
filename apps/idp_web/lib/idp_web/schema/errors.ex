@@ -52,6 +52,14 @@ defmodule IdpWeb.Schema.Errors do
         }
       }
 
+      @user_not_found {
+        :error,
+        %{
+          code: :user_not_found,
+          message: gettext("User not found")
+        }
+      }
+
       @user_already_exists {
         :error,
         %{
