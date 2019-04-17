@@ -54,7 +54,7 @@ defmodule IdpWeb.LoginSchemaTest do
       }
     end
 
-    test "login returns error if user doesn't exist", %{conn: conn} do
+    test "login returns error if user does not exist", %{conn: conn} do
       mutation = %{
         query: """
         mutation {
@@ -82,7 +82,7 @@ defmodule IdpWeb.LoginSchemaTest do
       }
     end
 
-    test "login returns error if user is not inactive", %{conn: conn} do
+    test "login returns error if user is inactive", %{conn: conn} do
       mutation = %{
         query: """
         mutation {
@@ -106,6 +106,35 @@ defmodule IdpWeb.LoginSchemaTest do
             "locations" => [%{"column" => 0, "line" => 2}],
             "message" => "User is not active",
             "path" => ["login"]
+          }
+        ]
+      }
+    end
+
+    test "can not register a new user if same email exists", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          register(email: "inactive@email.com", password: "12345678", full_name: "Bla bla") {
+            result
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> post("/api/graphql", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"register" => nil},
+        "errors" => [
+          %{
+            "code" => "user_already_exists",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "User already exists",
+            "path" => ["register"]
           }
         ]
       }
