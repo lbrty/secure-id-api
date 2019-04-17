@@ -6,32 +6,42 @@ defmodule IdpWeb.LoginSchemaTest do
     {:ok, context}
   end
 
-  describe "authentication" do
+  describe "🔐 authentication ::" do
     test "login authenticates user if exists", %{conn: conn} do
-      mutation = """
+      mutation = %{
+        query: """
         mutation {
           login(email: "user1@email.com", password: "12345678") {
             token
           }
         }
-      """
+        """
+      }
 
-      request = post(conn, "/api", %{query: mutation})
-      result = json_response(request, 200)
+      result =
+        conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
       assert result["data"]["login"]["token"] != nil
     end
 
     test "login returns errors if credentials are wrong", %{conn: conn} do
-      mutation = """
+      mutation = %{
+        query: """
         mutation {
           login(email: "user1@email.com", password: "12345670") {
             token
           }
         }
-      """
+        """
+      }
 
-      request = post(conn, "/api", %{query: mutation})
-      result = json_response(request, 200)
+      result =
+        conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
       assert result == %{
         "data" => %{"login" => nil},
         "errors" => [
@@ -45,16 +55,21 @@ defmodule IdpWeb.LoginSchemaTest do
     end
 
     test "login returns error if user doesn't exist", %{conn: conn} do
-      mutation = """
+      mutation = %{
+        query: """
         mutation {
           login(email: "stranger@email.com", password: "12345678") {
             token
           }
         }
-      """
+        """
+      }
 
-      request = post(conn, "/api", %{query: mutation})
-      result = json_response(request, 200)
+      result =
+        conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
       assert result == %{
         "data" => %{"login" => nil},
         "errors" => [
@@ -67,7 +82,33 @@ defmodule IdpWeb.LoginSchemaTest do
       }
     end
 
-    test "login returns error if user inactive", %{conn: conn} do
+    test "login returns error if user is not inactive", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          login(email: "inactive@email.com", password: "12345678") {
+            token
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> post("/api/graphql", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"login" => nil},
+        "errors" => [
+          %{
+            "code" => "user_not_active",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "User is not active",
+            "path" => ["login"]
+          }
+        ]
+      }
     end
   end
 end
