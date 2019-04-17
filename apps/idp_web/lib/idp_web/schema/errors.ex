@@ -53,6 +53,14 @@ defmodule IdpWeb.Schema.Errors do
         }
       }
 
+      @user_already_exists {
+        :error,
+        %{
+          code: :user_already_exists,
+          message: gettext("User already exists")
+        }
+      }
+
       @not_authenticated {
         :error,
         %{
