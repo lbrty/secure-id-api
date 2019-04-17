@@ -35,13 +35,13 @@ defmodule Idp.EctoHelpers do
     case fun.() do
       {:ok, result} -> {:ok, result}
 
-      {:error, error = %Ecto.Changeset{}} ->
+      {:error, changeset = %Ecto.Changeset{}} ->
         {
           :error,
           %{
             message: "Changeset errors occurred",
             code: :schema_errors,
-            errors: to_api_errors(error)
+            errors: to_api_errors(changeset)
           }
         }
 
