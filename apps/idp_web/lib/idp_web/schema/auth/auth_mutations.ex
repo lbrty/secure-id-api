@@ -14,10 +14,6 @@ defmodule IdpWeb.Schema.AuthMutations do
       arg :email, non_null(:string)
       arg :password, non_null(:string)
 
-      middleware IdpWeb.AuthRequired
-      middleware IdpWeb.OnlyActiveUser
-      middleware IdpWeb.OnlyAdmin
-
       resolve &AuthResolvers.login/2
     end
 
