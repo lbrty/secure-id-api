@@ -24,8 +24,12 @@ defmodule Auth do
     if user do
       {:error, :already_exists}
     else
-      Users.create_user(data)
-      {:ok, %{result: :ok}}
+      case Users.create_user(data) do
+        {:ok, %Users.User{} = _user} ->
+          {:ok, %{result: :ok}}
+
+        error_result -> error_result
+      end
     end
   end
 
