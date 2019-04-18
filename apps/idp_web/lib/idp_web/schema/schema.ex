@@ -9,12 +9,16 @@ defmodule IdpWeb.Schema do
   import_types(IdpWeb.Schema.ProjectQueries)
   import_types(IdpWeb.Schema.ProjectMutations)
 
+  import_types(IdpWeb.Schema.UserTypes)
+  import_types(IdpWeb.Schema.UserQueries)
+
   # Import authentication definitions
   import_types(IdpWeb.Schema.AuthTypes)
   import_types(IdpWeb.Schema.AuthMutations)
 
   query do
     import_fields(:project_queries)
+    import_fields(:user_queries)
   end
 
   mutation do
