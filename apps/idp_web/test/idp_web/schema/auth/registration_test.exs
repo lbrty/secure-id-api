@@ -72,6 +72,7 @@ defmodule IdpWeb.RegistrationSchemaTest do
             "path" => ["register"]
           }
         ]
+      }
     end
 
     test "can not register a new user if user with same email already exists", %{conn: conn} do
