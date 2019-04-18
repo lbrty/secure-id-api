@@ -1,6 +1,8 @@
 defmodule IdpWeb.Schema.AuthResolvers do
   use IdpWeb.Schema.Errors
+
   alias Auth
+  alias Idp.EctoHelpers
 
   def login(%{email: email, password: password}, _info) do
     with {:ok, user} <- Auth.login_with_email_pass(email, password),
@@ -16,7 +18,13 @@ defmodule IdpWeb.Schema.AuthResolvers do
   def register(user, _info) do
     case Auth.register(user) do
       {:error, :already_exists} -> @user_already_exists
-      result -> result
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        EctoHelpers.action_wrapped(fn ->
+          {:error, changeset}
+        end)
+
+      {:ok, result} -> {:ok, result}
     end
   end
 end
