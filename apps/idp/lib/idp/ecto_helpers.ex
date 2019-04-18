@@ -1,26 +1,24 @@
 defmodule Idp.EctoHelpers do
+  alias Ecto.Changeset
+
   @doc """
-  Transform `%Ecto.Changeset{}` errors to a list of
-  maps containing field name on which validation
-  error happened and it's formatted message
+  Transform `%Ecto.Changeset{}` errors to a map
+  containing field name as a key on which validation
+  error happened and it's formatted message.
 
   For example:
 
   ```
-  [
-    %{
-      "title": "title length should be at least 8 characters"
-    }
+  %{
+    "title": "title length should be at least 8 characters"
     ...
-  ]
+  }
   ```
   """
-  def to_api_errors(changeset = %Ecto.Changeset{}) do
-    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
-      Enum.reduce(opts, msg, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
-      end)
-    end)
+  def to_api_errors(%Changeset{} = changeset) do
+    changeset
+    |> format_errors()
+    |> shape_errors()
   end
 
   @doc """
@@ -35,7 +33,7 @@ defmodule Idp.EctoHelpers do
     case fun.() do
       {:ok, result} -> {:ok, result}
 
-      {:error, changeset = %Ecto.Changeset{}} ->
+      {:error, changeset = %Changeset{}} ->
         {
           :error,
           %{
@@ -54,5 +52,24 @@ defmodule Idp.EctoHelpers do
           }
         }
     end
+  end
+
+  # Extract and interpolate all errors from
+  # `Changeset.errors` and return a map.
+  defp format_errors(%Changeset{} = changeset) do
+    Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, formatted_msg ->
+        formatted_msg |> String.replace("%{#{key}}", to_string(value))
+      end)
+    end)
+  end
+
+  # Get all errors from `format_errors/1` and
+  # join their messages into a single string
+  # separated by ","
+  defp shape_errors(errors) do
+    Enum.reduce(errors, errors, fn {key, value}, map ->
+      map |> Map.put(key, Enum.join(value, ", "))
+    end)
   end
 end
