@@ -109,6 +109,9 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
+    test "attempt to update non existing user returns error", %{conn: conn} do
+    end
+
     test "admin users can delete projects", %{conn: conn} do
       admin_conn =
         conn
