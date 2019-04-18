@@ -5,6 +5,8 @@ defmodule IdpWeb.ProjectsSchemaTest do
   alias Idp.Users
   alias IdpWeb.TestUtils
 
+  @moduletag :projects
+
   setup context do
     Idp.Seeds.run()
     {:ok, context}

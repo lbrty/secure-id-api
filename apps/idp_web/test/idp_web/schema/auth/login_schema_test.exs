@@ -1,6 +1,8 @@
 defmodule IdpWeb.LoginSchemaTest do
   use IdpWeb.ConnCase, async: true
 
+  @moduletag :auth
+
   setup context do
     Idp.Seeds.run()
     {:ok, context}
