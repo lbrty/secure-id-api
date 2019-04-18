@@ -46,5 +46,36 @@ defmodule IdpWeb.UserSchemaTest do
         }
       }
     end
+
+    test "users can not see all existing users", %{conn: conn} do
+      mutation = %{
+        query: """
+        {
+          users {
+            full_name
+            email
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"users" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["users"]
+          }
+        ]
+      }
+    end
   end
 end
