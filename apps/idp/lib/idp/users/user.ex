@@ -32,6 +32,19 @@ defmodule Idp.Users.User do
     |> put_password_hash()
   end
 
+  @doc false
+  def update_changeset(user, attrs) do
+    required_params =
+      @required_params
+      |> Enum.reject(fn x -> x == :password end)
+
+    user
+    |> cast(attrs, required_params)
+    |> validate_required(required_params)
+    |> validate_format(:email, ~r/.*@.*/)
+    |> unique_constraint(:email)
+  end
+
   defp put_password_hash(%{changes: %{password: password}} = changeset) do
     changeset
     |> put_change(:password_hash, Auth.hash_password(password))
