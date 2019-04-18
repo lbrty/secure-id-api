@@ -1,4 +1,4 @@
-defmodule IdpWeb.LoginSchemaTest do
+defmodule IdpWeb.AuthSchemaTest do
   use IdpWeb.ConnCase, async: true
 
   @moduletag :auth
@@ -108,35 +108,6 @@ defmodule IdpWeb.LoginSchemaTest do
             "locations" => [%{"column" => 0, "line" => 2}],
             "message" => "User is not active",
             "path" => ["login"]
-          }
-        ]
-      }
-    end
-
-    test "can not register a new user if same email exists", %{conn: conn} do
-      mutation = %{
-        query: """
-        mutation {
-          register(email: "inactive@email.com", password: "12345678", full_name: "Bla bla") {
-            result
-          }
-        }
-        """
-      }
-
-      result =
-        conn
-        |> post("/api/graphql", mutation)
-        |> json_response(200)
-
-      assert result == %{
-        "data" => %{"register" => nil},
-        "errors" => [
-          %{
-            "code" => "user_already_exists",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "User already exists",
-            "path" => ["register"]
           }
         ]
       }
