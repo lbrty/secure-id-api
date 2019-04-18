@@ -48,9 +48,10 @@ defmodule IdpWeb.AuthSchemaTest do
         "data" => %{"login" => nil},
         "errors" => [
           %{
+            "code" => "invalid_credentials",
             "locations" => [%{"column" => 0, "line" => 2}],
-            "path" => ["login"],
-            "message" => "invalid_credentials"
+            "message" => "Invalid credentials",
+            "path" => ["login"]
           }
         ]
       }
@@ -76,8 +77,9 @@ defmodule IdpWeb.AuthSchemaTest do
         "data" => %{"login" => nil},
         "errors" => [
           %{
+            "code" => "user_not_found",
             "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "user_not_found",
+            "message" => "User not found",
             "path" => ["login"]
           }
         ]

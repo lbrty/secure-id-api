@@ -12,6 +12,9 @@ defmodule IdpWeb.Schema.AuthResolvers do
         true -> {:ok, %{token: jwt}}
         _ -> @user_not_active
       end
+    else
+      {:error, :invalid_credentials} -> @invalid_credentials
+      {:error, :user_not_found} -> @user_not_found
     end
   end
 
