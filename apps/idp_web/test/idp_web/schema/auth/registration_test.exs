@@ -13,6 +13,30 @@ defmodule IdpWeb.RegistrationSchemaTest do
   end
 
   describe "🎭 registration ::" do
+    test "admins can register new users", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          register(email: "newuser@email.com", password: "12345678", full_name: "Bla bla") {
+            result
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api/graphql", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "register" => %{"result" => "ok"}
+        }
+      }
+    end
+
     test "regular users can not register a new user", %{conn: conn} do
       mutation = %{
         query: """
