@@ -1,4 +1,5 @@
 defmodule IdpWeb.AuthSchemaTest do
+  use ExUnit.Case
   use IdpWeb.ConnCase, async: true
 
   @moduletag :auth

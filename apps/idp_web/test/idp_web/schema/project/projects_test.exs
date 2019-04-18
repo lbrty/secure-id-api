@@ -1,6 +1,6 @@
 defmodule IdpWeb.ProjectsSchemaTest do
-  use IdpWeb.ConnCase, async: true
   use ExUnit.Case
+  use IdpWeb.ConnCase, async: true
 
   alias Idp.Users
   alias IdpWeb.TestUtils
