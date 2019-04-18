@@ -47,6 +47,12 @@ defmodule IdpWeb.UserSchemaTest do
       }
     end
 
+    test "admins can update users", %{conn: conn} do
+    end
+
+    test "admins can delete users", %{conn: conn} do
+    end
+
     test "users can not see all existing users", %{conn: conn} do
       mutation = %{
         query: """
@@ -76,6 +82,12 @@ defmodule IdpWeb.UserSchemaTest do
           }
         ]
       }
+    end
+
+    test "users can update their user records", %{conn: conn} do
+    end
+
+    test "users can update other user records", %{conn: conn} do
     end
   end
 end
