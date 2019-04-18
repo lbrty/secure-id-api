@@ -5,6 +5,8 @@ defmodule Idp.Projects do
   use Idp.Query
 
   alias Idp.Projects.Project
+  alias Idp.Users.User
+  alias Idp.Permissions.Permission
 
   @doc """
   Returns the list of projects.
@@ -17,6 +19,28 @@ defmodule Idp.Projects do
   """
   def list_projects do
     Repo.all(Project)
+  end
+
+  @doc """
+  Returns the list of shared projects for `%User{} = user`.
+  In case if user is superuser all projects returned
+  otherwise only shared projects returned.
+
+  ## Examples
+
+      iex> list_for_user(user)
+      [%Project{}, ...]
+  """
+  def list_for_user(%User{} = %{is_superuser: true}), do: list_projects()
+  def list_for_user(%User{} = %{id: uid}) do
+    query =
+      from p in Permission,
+      where: p.user_id == ^uid,
+      preload: :project
+
+    query
+    |> Repo.all()
+    |> Enum.map(fn p -> p.project end)
   end
 
   @doc """
