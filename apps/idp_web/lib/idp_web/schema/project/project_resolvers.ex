@@ -8,9 +8,11 @@ defmodule IdpWeb.Schema.ProjectResolvers do
     Projects.create_project(project)
   end
 
-  def list(_parent, _args, %{context: %{user: _user}}) do
-    # Projects.for_user(user)
-    {:ok, Projects.list_projects()}
+  def list(_parent, _args, %{context: %{user: user}}) do
+    case user.is_superuser do
+      true -> {:ok, Projects.list_projects()}
+      _ -> {:ok, Projects.list_for_user(user)}
+    end
   end
 
   def update(_parent, %{project_id: pid, project: to_update}, _) do
