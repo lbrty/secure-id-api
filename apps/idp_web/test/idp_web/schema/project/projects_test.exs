@@ -144,8 +144,30 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
-    # test "users can see shared projects", %{conn: conn} do
-    # end
+    test "users can see shared projects", %{conn: conn} do
+      query = """
+        {
+          projects {
+            name
+          }
+        }
+      """
+
+      # get projects for user1@email.com
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api/graphql", %{query: query})
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "projects" => [
+            %{"name" => "Project X"}
+          ]
+        }
+      }
+    end
 
     test "regular users can not create project", %{conn: conn} do
       query = """
@@ -317,7 +339,6 @@ defmodule IdpWeb.ProjectsSchemaTest do
         ]
       }
     end
-
   end
 
   defp get_project(conn) do
