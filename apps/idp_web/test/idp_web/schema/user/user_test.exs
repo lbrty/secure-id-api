@@ -50,6 +50,12 @@ defmodule IdpWeb.UserSchemaTest do
     test "admins can update users", %{conn: conn} do
     end
 
+    test "admins can update passwords for other users", %{conn: conn} do
+    end
+
+    test "admins can see shared projects for any user", %{conn: conn} do
+    end
+
     test "admins can delete users", %{conn: conn} do
     end
 
@@ -84,7 +90,16 @@ defmodule IdpWeb.UserSchemaTest do
       }
     end
 
+    test "users only see their shared projects", %{conn: conn} do
+    end
+
     test "users can update their user records", %{conn: conn} do
+    end
+
+    test "users can abandon shared projects", %{conn: conn} do
+    end
+
+    test "users can update their passwords", %{conn: conn} do
     end
 
     test "users can update other user records", %{conn: conn} do
