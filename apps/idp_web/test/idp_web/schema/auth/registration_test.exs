@@ -1,16 +1,10 @@
 defmodule IdpWeb.RegistrationSchemaTest do
-  use ExUnit.Case
-  use IdpWeb.ConnCase, async: true
+  use IdpWeb.WebCase
 
   alias Idp.Users
   alias IdpWeb.TestUtils
 
   @moduletag :registration
-
-  setup context do
-    Idp.Seeds.run()
-    {:ok, context}
-  end
 
   describe "🎭 registration ::" do
     test "admins can register new users", %{conn: conn} do

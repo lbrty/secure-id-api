@@ -1,16 +1,10 @@
 defmodule IdpWeb.ProjectsSchemaTest do
-  use ExUnit.Case
-  use IdpWeb.ConnCase, async: true
+  use IdpWeb.WebCase
 
   alias Idp.Users
   alias IdpWeb.TestUtils
 
   @moduletag :projects
-
-  setup context do
-    Idp.Seeds.run()
-    {:ok, context}
-  end
 
   describe "🚀 projects ::" do
     test "admin users can create projects", %{conn: conn} do

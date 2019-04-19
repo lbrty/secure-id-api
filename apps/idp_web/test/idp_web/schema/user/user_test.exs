@@ -1,16 +1,10 @@
 defmodule IdpWeb.UserSchemaTest do
-  use ExUnit.Case
-  use IdpWeb.ConnCase, async: true
+  use IdpWeb.WebCase
 
   alias Idp.Users
   alias IdpWeb.TestUtils
 
   @moduletag :users
-
-  setup context do
-    Idp.Seeds.run()
-    {:ok, context}
-  end
 
   describe "🦄 users ::" do
     test "admins can see all existing users", %{conn: conn} do
