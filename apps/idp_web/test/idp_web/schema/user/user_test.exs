@@ -87,10 +87,9 @@ defmodule IdpWeb.UserSchemaTest do
       mutation = %{
         query: """
         mutation {
-          changePassword(
+          forceChangePassword(
             user_id: #{user.id},
             passwords: {
-              password: "12345678",
               new_password: "012345678"
               new_password_confirmation: "012345678"
             }
@@ -109,10 +108,48 @@ defmodule IdpWeb.UserSchemaTest do
 
       assert result == %{
         "data" => %{
-          "changePassword" => %{
+          "forceChangePassword" => %{
             "email" => "user1@email.com"
           }
         }
+      }
+    end
+
+    test "admin update password validation works", %{conn: conn} do
+      user = Users.get_by_email("user1@email.com")
+      mutation = %{
+        query: """
+        mutation {
+          forceChangePassword(
+            user_id: #{user.id},
+            passwords: {
+              new_password: "012345678"
+              new_password_confirmation: "01234567"
+            }
+          ) {
+            email
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"forceChangePassword" => nil},
+        "errors" => [
+          %{
+            "code" => "schema_errors",
+            "errors" => %{"new_password_confirmation" => "Passwords do not match"},
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Changeset errors occurred",
+            "path" => ["forceChangePassword"]
+          }
+        ]
       }
     end
 
