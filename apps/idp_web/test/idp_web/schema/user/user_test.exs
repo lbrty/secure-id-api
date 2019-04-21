@@ -420,5 +420,46 @@ defmodule IdpWeb.UserSchemaTest do
         ]
       }
     end
+
+    test "attempt to update non existent user", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          updateUser(
+            user_id: 123,
+            fields: {
+              email: "user1@example.com",
+              full_name: "Full name User 1",
+              is_active: true,
+              is_superuser: false
+            }
+          ) {
+            email
+            full_name
+            is_active
+            is_superuser
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateUser" => nil},
+        "errors" => [
+          %{
+            "code" => "user_not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "User not found",
+            "path" => ["updateUser"]
+          }
+        ]
+      }
+    end
   end
 end
