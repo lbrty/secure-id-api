@@ -214,6 +214,44 @@ defmodule IdpWeb.UserSchemaTest do
     end
 
     test "users can update their user records", %{conn: conn} do
+      user = Users.get_by_email("user1@email.com")
+      mutation = %{
+        query: """
+        mutation {
+          updateUser(
+            user_id: #{user.id},
+            fields: {
+              email: "user1@example.com",
+              full_name: "Full name User 1",
+              is_active: true,
+              is_superuser: false
+            }
+          ) {
+            email
+            full_name
+            is_active
+            is_superuser
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(user)
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "updateUser" => %{
+            "email" => "user1@example.com",
+            "full_name" => "Full name User 1",
+            "is_active" => true,
+            "is_superuser" => false
+          }
+        }
+      }
     end
 
     test "users can abandon shared projects", %{conn: conn} do
