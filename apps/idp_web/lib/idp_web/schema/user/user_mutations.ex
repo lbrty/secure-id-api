@@ -14,5 +14,16 @@ defmodule IdpWeb.Schema.UserMutations do
 
       resolve &UserResolvers.update/3
     end
+
+    @desc "Change password for user"
+    field :change_password, :user do
+      arg :user_id, non_null(:integer)
+      arg :passwords, :update_password_params
+
+      middleware IdpWeb.AuthRequired
+      middleware IdpWeb.OnlyActiveUser
+
+      resolve &UserResolvers.change_password/3
+    end
   end
 end

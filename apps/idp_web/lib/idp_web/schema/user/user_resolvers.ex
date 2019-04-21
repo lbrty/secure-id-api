@@ -13,7 +13,19 @@ defmodule IdpWeb.Schema.UserResolvers do
 
     action_for_user(user, fn ->
       EctoHelpers.action_wrapped(fn ->
-        Users.update_user(user, Map.put(to_update, :password_hash, user.password_hash))
+        Users.update_user(user, to_update)
+      end)
+    end)
+  end
+
+  def change_password(_parent, %{user_id: uid, passwords: to_update}, _) do
+    user = Users.get_user(uid)
+
+    uid
+    |> Users.get_user()
+    |> action_for_user(fn ->
+      EctoHelpers.action_wrapped(fn ->
+        Users.change_password(user, to_update)
       end)
     end)
   end
