@@ -198,7 +198,31 @@ defmodule IdpWeb.UserSchemaTest do
       }
     end
 
-    test "admins can delete users", %{conn: conn} do
+    test "admins can delete any user", %{conn: conn} do
+      user = Users.get_by_email("user1@email.com")
+      mutation = %{
+        query: """
+        mutation {
+          deleteUser(user_id: #{user.id}) {
+            id
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "deleteUser" => %{
+            "id" => "#{user.id}"
+          }
+        }
+      }
     end
 
     test "users can not see all existing users", %{conn: conn} do
