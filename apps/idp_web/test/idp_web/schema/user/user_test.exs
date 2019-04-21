@@ -174,6 +174,28 @@ defmodule IdpWeb.UserSchemaTest do
     end
 
     test "admins can see shared projects for any user", %{conn: conn} do
+      user = Users.get_by_email("user1@email.com")
+      query = """
+        {
+          projects(user_id: #{user.id}) {
+            name
+          }
+        }
+      """
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api/graphql", %{query: query})
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "projects" => [
+            %{"name" => "Project X"}
+          ]
+        }
+      }
     end
 
     test "admins can delete users", %{conn: conn} do
