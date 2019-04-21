@@ -15,6 +15,11 @@ defmodule IdpWeb.Schema.UserTypes do
     field(:new_password_confirmation, :string)
   end
 
+  input_object :force_update_password_params do
+    field(:new_password, :string)
+    field(:new_password_confirmation, :string)
+  end
+
   @desc "User"
   object :user do
     field(:id, :id)

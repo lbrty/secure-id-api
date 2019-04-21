@@ -10,7 +10,6 @@ defmodule IdpWeb.Schema.UserMutations do
 
       middleware IdpWeb.AuthRequired
       middleware IdpWeb.OnlyActiveUser
-      middleware IdpWeb.OnlyAdmin
 
       resolve &UserResolvers.update/3
     end
@@ -22,6 +21,18 @@ defmodule IdpWeb.Schema.UserMutations do
 
       middleware IdpWeb.AuthRequired
       middleware IdpWeb.OnlyActiveUser
+
+      resolve &UserResolvers.change_password/3
+    end
+
+    @desc "Force change password for user (only for admin users)"
+    field :force_change_password, :user do
+      arg :user_id, non_null(:integer)
+      arg :passwords, :force_update_password_params
+
+      middleware IdpWeb.AuthRequired
+      middleware IdpWeb.OnlyActiveUser
+      middleware IdpWeb.OnlyAdmin
 
       resolve &UserResolvers.change_password/3
     end
