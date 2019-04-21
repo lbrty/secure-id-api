@@ -43,6 +43,9 @@ defmodule Idp.EctoHelpers do
           }
         }
 
+      # Case for our standard errors in `IdpWeb.Schema.Errors`
+      {:error, %{code: _}} = error -> error
+
       {:error, _} ->
         {
           :error,
