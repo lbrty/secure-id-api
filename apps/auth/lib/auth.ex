@@ -24,13 +24,17 @@ defmodule Auth do
     if user do
       {:error, :already_exists}
     else
-      case Users.create_user(data) do
+      case Users.register_user(data) do
         {:ok, %Users.User{} = _user} ->
           {:ok, %{result: :ok}}
 
         error_result -> error_result
       end
     end
+  end
+
+  def password_valid?(password, password_hash) do
+    checkpw(password, password_hash)
   end
 
   def hash_password(password) do
