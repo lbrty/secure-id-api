@@ -380,6 +380,45 @@ defmodule IdpWeb.UserSchemaTest do
     end
 
     test "users can not update other user records", %{conn: conn} do
+      user = Users.get_by_email("user1@email.com")
+      mutation = %{
+        query: """
+        mutation {
+          updateUser(
+            user_id: #{user.id},
+            fields: {
+              email: "user1@example.com",
+              full_name: "Full name User 1",
+              is_active: true,
+              is_superuser: false
+            }
+          ) {
+            email
+            full_name
+            is_active
+            is_superuser
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("user2@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateUser" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["updateUser"]
+          }
+        ]
+      }
     end
   end
 end
