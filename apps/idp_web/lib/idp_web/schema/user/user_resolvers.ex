@@ -38,6 +38,16 @@ defmodule IdpWeb.Schema.UserResolvers do
     end)
   end
 
+  def delete(_parent, %{user_id: uid}, _context) do
+    uid
+    |> Users.get_user()
+    |> action_for_user(fn user ->
+      EctoHelpers.action_wrapped(fn ->
+        Users.delete_user(user)
+      end)
+    end)
+  end
+
   def change_password(
     _parent,
     %{user_id: uid, passwords: to_update},

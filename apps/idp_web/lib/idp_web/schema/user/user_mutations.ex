@@ -36,5 +36,16 @@ defmodule IdpWeb.Schema.UserMutations do
 
       resolve &UserResolvers.change_password/3
     end
+
+    @desc "Delete user"
+    field :delete_user, :user do
+      arg :user_id, non_null(:integer)
+
+      middleware IdpWeb.AuthRequired
+      middleware IdpWeb.OnlyActiveUser
+      middleware IdpWeb.OnlyAdmin
+
+      resolve &UserResolvers.delete/3
+    end
   end
 end
