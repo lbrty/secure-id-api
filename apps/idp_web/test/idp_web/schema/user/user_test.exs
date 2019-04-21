@@ -83,6 +83,37 @@ defmodule IdpWeb.UserSchemaTest do
     end
 
     test "admins can update passwords for other users", %{conn: conn} do
+      user = Users.get_by_email("user1@email.com")
+      mutation = %{
+        query: """
+        mutation {
+          changePassword(
+            user_id: #{user.id},
+            passwords: {
+              password: "12345678",
+              new_password: "012345678"
+              new_password_confirmation: "012345678"
+            }
+          ) {
+            email
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "changePassword" => %{
+            "email" => "user1@email.com"
+          }
+        }
+      }
     end
 
     test "admins can see shared projects for any user", %{conn: conn} do
