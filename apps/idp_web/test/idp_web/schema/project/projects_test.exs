@@ -103,7 +103,44 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
-    test "attempt to update non existing user returns error", %{conn: conn} do
+    test "attempt to update non existent project returns error", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      query = %{
+        query: """
+        mutation {
+          updateProject(
+            project_id: 123,
+            project: {
+              name: "Stars ✨ and rockets 🚀",
+              description: "🌏"
+            }
+          ) {
+            name
+            description
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api/graphql", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateProject" => nil},
+        "errors" => [
+          %{
+            "code" => "not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Project not found",
+            "path" => ["updateProject"]
+          }
+        ]
+      }
     end
 
     test "admin users can delete projects", %{conn: conn} do
