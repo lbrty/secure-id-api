@@ -166,6 +166,36 @@ defmodule IdpWeb.ProjectsSchemaTest do
       }
     end
 
+    test "users can not see shared projects for other users", %{conn: conn} do
+      user = Users.get_by_email("user2@email.com")
+      query = """
+        {
+          projects(user_id: #{user.id}) {
+            name
+          }
+        }
+      """
+
+      # get projects for user1@email.com
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api/graphql", %{query: query})
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"projects" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["projects"]
+          }
+        ]
+      }
+    end
+
     test "regular users can not create project", %{conn: conn} do
       query = """
         mutation {
