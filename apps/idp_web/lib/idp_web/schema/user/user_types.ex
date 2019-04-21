@@ -10,9 +10,9 @@ defmodule IdpWeb.Schema.UserTypes do
   end
 
   input_object :update_password_params do
-    field(:old_password, :string)
+    field(:password, :string)
     field(:new_password, :string)
-    field(:new_password_repeat, :string)
+    field(:new_password_confirmation, :string)
   end
 
   @desc "User"
