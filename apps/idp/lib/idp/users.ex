@@ -50,20 +50,20 @@ defmodule Idp.Users do
   end
 
   @doc """
-  Creates a user.
+  Register a new user.
 
   ## Examples
 
-      iex> create_user(%{field: value})
+      iex> register_user(%{field: value})
       {:ok, %User{}}
 
-      iex> create_user(%{field: bad_value})
+      iex> register_user(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
+  def register_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -84,6 +84,25 @@ defmodule Idp.Users do
     |> User.update_changeset(attrs)
     |> Repo.update()
   end
+
+  @doc """
+  Updates password for user.
+
+  ## Examples
+
+      iex> change_password(user, %{old_password: "***", ...})
+      {:ok, %User{}}
+
+      iex> change_password(user, %{old_password: "***", ...})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def change_password(%User{} = user, attrs) do
+    user
+    |> User.password_changeset(attrs)
+    |> Repo.update()
+  end
+
 
   @doc """
   Deletes a User.
