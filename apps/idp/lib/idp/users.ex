@@ -90,10 +90,10 @@ defmodule Idp.Users do
 
   ## Examples
 
-      iex> change_password(user, %{old_password: "***", ...})
+      iex> change_password(user, %{password: "***", ...})
       {:ok, %User{}}
 
-      iex> change_password(user, %{old_password: "***", ...})
+      iex> change_password(user, %{password: "***", ...})
       {:error, %Ecto.Changeset{}}
 
   """
@@ -103,6 +103,24 @@ defmodule Idp.Users do
     |> Repo.update()
   end
 
+  @doc """
+  Updates password for user without knowing its password
+  only admins should be using this action.
+
+  ## Examples
+
+      iex> force_change_password(user, %{new_password: "***", ...})
+      {:ok, %User{}}
+
+      iex> force_change_password(user, %{new_password: "***", ...})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def force_change_password(%User{} = user, attrs) do
+    user
+    |> User.force_password_changeset(attrs)
+    |> Repo.update()
+  end
 
   @doc """
   Deletes a User.
