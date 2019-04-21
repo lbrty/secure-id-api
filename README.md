@@ -1,5 +1,7 @@
 # Idp
 
+**NOTE**: API is still under active development.
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
