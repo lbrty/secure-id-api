@@ -83,6 +83,8 @@ defmodule IdpWeb.UserSchemaTest do
     end
 
     test "admins can update passwords for other users", %{conn: conn} do
+      # Change password for `user1@email.com`.
+      # Then try to authenticate w/ new password.
       user = Users.get_by_email("user1@email.com")
       mutation = %{
         query: """
@@ -113,6 +115,24 @@ defmodule IdpWeb.UserSchemaTest do
           }
         }
       }
+
+      # Now check if we can authenticate the user with new password
+      mutation = %{
+        query: """
+        mutation {
+          login(email: "user1@email.com", password: "012345678") {
+            token
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result["data"]["login"]["token"] != nil
     end
 
     test "admin update password validation works", %{conn: conn} do
@@ -202,7 +222,7 @@ defmodule IdpWeb.UserSchemaTest do
     test "users can update their passwords", %{conn: conn} do
     end
 
-    test "users can update other user records", %{conn: conn} do
+    test "users can not update other user records", %{conn: conn} do
     end
   end
 end
