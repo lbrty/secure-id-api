@@ -26,7 +26,7 @@ defmodule IdpWeb.AuthSchemaTest do
         |> post("/api", mutation)
         |> json_response(200)
 
-      assert result["data"]["login"]["token"] != nil
+      assert get_in(result, ["data", "login", "token"])
     end
 
     test "login returns error if credentials are wrong", %{conn: conn} do

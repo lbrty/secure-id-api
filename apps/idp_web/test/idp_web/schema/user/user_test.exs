@@ -132,7 +132,7 @@ defmodule IdpWeb.UserSchemaTest do
         |> post("/api", mutation)
         |> json_response(200)
 
-      assert result["data"]["login"]["token"] != nil
+      assert get_in(result, ["data", "login", "token"])
     end
 
     test "admin update password validation works", %{conn: conn} do
