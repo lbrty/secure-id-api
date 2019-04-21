@@ -257,6 +257,28 @@ defmodule IdpWeb.UserSchemaTest do
     end
 
     test "users only see their shared projects", %{conn: conn} do
+      query = """
+        {
+          projects {
+            name
+          }
+        }
+      """
+
+      # get projects for user1@email.com
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api/graphql", %{query: query})
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "projects" => [
+            %{"name" => "Project X"}
+          ]
+        }
+      }
     end
 
     test "users can update their user records", %{conn: conn} do
