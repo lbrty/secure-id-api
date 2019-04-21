@@ -5,6 +5,8 @@ defmodule IdpWeb.Schema.ProjectQueries do
   object :project_queries do
     @desc "Get all projects"
     field :projects, list_of(:project) do
+      arg :user_id, :integer
+
       middleware IdpWeb.AuthRequired
       middleware IdpWeb.OnlyActiveUser
 
