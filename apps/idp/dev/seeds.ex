@@ -2,15 +2,15 @@ defmodule Idp.Seeds do
   alias Idp.{Permissions, Projects, Users}
 
   def run() do
-    Users.create_user(%{email: "admin@email.com", full_name: "Admin", password: "12345678", is_superuser: true, is_active: true})
-    {:ok, user1} = Users.create_user(%{email: "user1@email.com", full_name: "User 1", password: "12345678", is_superuser: false, is_active: true})
-    {:ok, user2} = Users.create_user(%{email: "user2@email.com", full_name: "User 2", password: "12345678", is_superuser: false, is_active: true})
-    {:ok, user3} = Users.create_user(%{email: "user3@email.com", full_name: "User 3", password: "12345678", is_superuser: false, is_active: true})
-    Users.create_user(%{email: "user4@email.com", full_name: "User 4", password: "12345678", is_superuser: false, is_active: true})
-    {:ok, user5} = Users.create_user(%{email: "user5@email.com", full_name: "User 5", password: "12345678", is_superuser: false, is_active: true})
+    Users.register_user(%{email: "admin@email.com", full_name: "Admin", password: "12345678", is_superuser: true, is_active: true})
+    {:ok, user1} = Users.register_user(%{email: "user1@email.com", full_name: "User 1", password: "12345678", is_superuser: false, is_active: true})
+    {:ok, user2} = Users.register_user(%{email: "user2@email.com", full_name: "User 2", password: "12345678", is_superuser: false, is_active: true})
+    {:ok, user3} = Users.register_user(%{email: "user3@email.com", full_name: "User 3", password: "12345678", is_superuser: false, is_active: true})
+    Users.register_user(%{email: "user4@email.com", full_name: "User 4", password: "12345678", is_superuser: false, is_active: true})
+    {:ok, user5} = Users.register_user(%{email: "user5@email.com", full_name: "User 5", password: "12345678", is_superuser: false, is_active: true})
 
-    Users.create_user(%{email: "admin2@email.com", full_name: "User 6", password: "12345678", is_superuser: true, is_active: true})
-    Users.create_user(%{email: "inactive@email.com", full_name: "Inactive user 1", password: "12345678", is_superuser: false, is_active: false})
+    Users.register_user(%{email: "admin2@email.com", full_name: "User 6", password: "12345678", is_superuser: true, is_active: true})
+    Users.register_user(%{email: "inactive@email.com", full_name: "Inactive user 1", password: "12345678", is_superuser: false, is_active: false})
 
     ## Projects
     # admin
