@@ -49,19 +49,40 @@ defmodule Idp.Users.User do
   @doc false
   def update_changeset(user, attrs), do: changeset(user, attrs)
 
-  @doc false
+  @doc """
+  Changeset used by regular users to update their passwords
+  """
   def password_changeset(user, attrs) do
     fields = ~w(password password_hash new_password new_password_confirmation)a
 
-    changes =
-      user
-      |> changeset(attrs)
-      |> cast(attrs, fields)
-      |> validate_required(fields)
-      |> Validators.check_password()
-      |> Validators.validate_password_confirmation()
-      |> validate_length(:password, min: 8)
+    user
+    |> changeset(attrs)
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+    |> Validators.check_password()
+    |> Validators.validate_password_confirmation()
+    |> validate_length(:new_password, min: 8)
+    |> update_password()
+  end
 
+  @doc """
+  Changeset used by admin users to update passwords for users
+  or their accounts as well. It does not require to know
+  password for `%User{} = user` this skipping this validation.
+  """
+  def force_password_changeset(user, attrs) do
+    fields = ~w(new_password new_password_confirmation)a
+
+    user
+    |> changeset(attrs)
+    |> cast(attrs, fields ++ [:password])
+    |> validate_required(fields)
+    |> Validators.validate_password_confirmation()
+    |> validate_length(:new_password, min: 8)
+    |> update_password()
+  end
+
+  defp update_password(changes) do
     case changes.valid? do
       true ->
         changes
