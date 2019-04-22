@@ -17,10 +17,10 @@ defmodule IdpWeb.Schema.UserResolvers do
   return `@permission_denied` error.
   """
   def update(
-        _parent,
-        %{user_id: uid, fields: to_update},
-        %{context: %{user: session_user}}
-      ) do
+    _parent,
+    %{user_id: uid, fields: to_update},
+    %{context: %{user: session_user}}
+  ) do
     uid
     |> Users.get_user()
     |> action_for_user(fn user ->
@@ -50,10 +50,10 @@ defmodule IdpWeb.Schema.UserResolvers do
   end
 
   def change_password(
-        _parent,
-        %{user_id: uid, passwords: to_update},
-        %{context: %{user: session_user}}
-      ) do
+    _parent,
+    %{user_id: uid, passwords: to_update},
+    %{context: %{user: session_user}}
+  ) do
     uid
     |> Users.get_user()
     |> action_for_user(fn user ->
