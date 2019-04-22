@@ -1,7 +1,9 @@
 defmodule Idp.Users.User do
   use Idp.Model
+
   alias __MODULE__
   alias Idp.Validators
+  alias Idp.Permissions.Permission
 
   schema "users" do
     field :email, :string
@@ -11,6 +13,8 @@ defmodule Idp.Users.User do
 
     field :is_active, :boolean, default: false
     field :is_superuser, :boolean, default: false
+
+    has_many :permissions, Permission
 
     # Used to change password
     field :new_password, :string, virtual: true
