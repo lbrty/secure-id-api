@@ -1,6 +1,8 @@
 defmodule Idp.Projects.Project do
   use Idp.Model
 
+  alias Idp.Permissions.Permission
+
   schema "projects" do
     field :name, :string
     field :description, :string
