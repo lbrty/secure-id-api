@@ -32,11 +32,12 @@ defmodule Idp.Projects do
       [%Project{}, ...]
   """
   def list_for_user(%User{} = %{is_superuser: true}), do: list_projects()
+
   def list_for_user(%User{} = %{id: uid}) do
     query =
       from p in Permission,
-      where: p.user_id == ^uid,
-      preload: :project
+        where: p.user_id == ^uid,
+        preload: :project
 
     query
     |> Repo.all()

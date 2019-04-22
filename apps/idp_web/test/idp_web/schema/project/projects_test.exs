@@ -24,13 +24,13 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{
-          "createProject" => %{
-            "description" => "✨ Description",
-            "name" => "🚀 project"
-          }
-        }
-      }
+               "data" => %{
+                 "createProject" => %{
+                   "description" => "✨ Description",
+                   "name" => "🚀 project"
+                 }
+               }
+             }
     end
 
     test "admin users can see all projects", %{conn: conn} do
@@ -49,15 +49,15 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{
-          "projects" => [
-            %{"name" => "Project X"},
-            %{"name" => "Project Y"},
-            %{"name" => "Project Z"},
-            %{"name" => "Project A"}
-          ]
-        }
-      }
+               "data" => %{
+                 "projects" => [
+                   %{"name" => "Project X"},
+                   %{"name" => "Project Y"},
+                   %{"name" => "Project Z"},
+                   %{"name" => "Project A"}
+                 ]
+               }
+             }
     end
 
     test "admin users can update projects", %{conn: conn} do
@@ -94,13 +94,13 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{
-          "updateProject" => %{
-            "name" => "Stars ✨ and rockets 🚀",
-            "description" => "🌏"
-          }
-        }
-      }
+               "data" => %{
+                 "updateProject" => %{
+                   "name" => "Stars ✨ and rockets 🚀",
+                   "description" => "🌏"
+                 }
+               }
+             }
     end
 
     test "attempt to update non existent project returns error", %{conn: conn} do
@@ -131,16 +131,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"updateProject" => nil},
-        "errors" => [
-          %{
-            "code" => "not_found",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Project not found",
-            "path" => ["updateProject"]
-          }
-        ]
-      }
+               "data" => %{"updateProject" => nil},
+               "errors" => [
+                 %{
+                   "code" => "not_found",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Project not found",
+                   "path" => ["updateProject"]
+                 }
+               ]
+             }
     end
 
     test "admin users can delete projects", %{conn: conn} do
@@ -170,12 +170,12 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{
-          "deleteProject" => %{
-            "id" => "#{pid}"
-          }
-        }
-      }
+               "data" => %{
+                 "deleteProject" => %{
+                   "id" => "#{pid}"
+                 }
+               }
+             }
     end
 
     test "users can see shared projects", %{conn: conn} do
@@ -195,16 +195,17 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{
-          "projects" => [
-            %{"name" => "Project X"}
-          ]
-        }
-      }
+               "data" => %{
+                 "projects" => [
+                   %{"name" => "Project X"}
+                 ]
+               }
+             }
     end
 
     test "users can not see shared projects for other users", %{conn: conn} do
       user = Users.get_by_email("user2@email.com")
+
       query = """
         {
           projects(user_id: #{user.id}) {
@@ -221,16 +222,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"projects" => nil},
-        "errors" => [
-          %{
-            "code" => "permission_denied",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Permission denied",
-            "path" => ["projects"]
-          }
-        ]
-      }
+               "data" => %{"projects" => nil},
+               "errors" => [
+                 %{
+                   "code" => "permission_denied",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Permission denied",
+                   "path" => ["projects"]
+                 }
+               ]
+             }
     end
 
     test "regular users can not create project", %{conn: conn} do
@@ -250,16 +251,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"createProject" => nil},
-        "errors" => [
-          %{
-            "code" => "permission_denied",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Permission denied",
-            "path" => ["createProject"]
-          }
-        ]
-      }
+               "data" => %{"createProject" => nil},
+               "errors" => [
+                 %{
+                   "code" => "permission_denied",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Permission denied",
+                   "path" => ["createProject"]
+                 }
+               ]
+             }
     end
 
     test "regular users can not update project", %{conn: conn} do
@@ -297,16 +298,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"updateProject" => nil},
-        "errors" => [
-          %{
-            "code" => "permission_denied",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Permission denied",
-            "path" => ["updateProject"]
-          }
-        ]
-      }
+               "data" => %{"updateProject" => nil},
+               "errors" => [
+                 %{
+                   "code" => "permission_denied",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Permission denied",
+                   "path" => ["updateProject"]
+                 }
+               ]
+             }
     end
 
     test "regular users can not delete project", %{conn: conn} do
@@ -337,16 +338,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"deleteProject" => nil},
-        "errors" => [
-          %{
-            "code" => "permission_denied",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Permission denied",
-            "path" => ["deleteProject"]
-          }
-        ]
-      }
+               "data" => %{"deleteProject" => nil},
+               "errors" => [
+                 %{
+                   "code" => "permission_denied",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Permission denied",
+                   "path" => ["deleteProject"]
+                 }
+               ]
+             }
     end
 
     test "inactive users can not perform any actions", %{conn: conn} do
@@ -365,16 +366,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"projects" => nil},
-        "errors" => [
-          %{
-            "code" => "user_not_active",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "User is not active",
-            "path" => ["projects"]
-          }
-        ]
-      }
+               "data" => %{"projects" => nil},
+               "errors" => [
+                 %{
+                   "code" => "user_not_active",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "User is not active",
+                   "path" => ["projects"]
+                 }
+               ]
+             }
     end
 
     test "anonymous users can not see any project", %{conn: conn} do
@@ -392,16 +393,16 @@ defmodule IdpWeb.ProjectsSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"projects" => nil},
-        "errors" => [
-          %{
-            "code" => "permission_denied",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Permission denied",
-            "path" => ["projects"]
-          }
-        ]
-      }
+               "data" => %{"projects" => nil},
+               "errors" => [
+                 %{
+                   "code" => "permission_denied",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Permission denied",
+                   "path" => ["projects"]
+                 }
+               ]
+             }
     end
   end
 

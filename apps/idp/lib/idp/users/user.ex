@@ -89,7 +89,8 @@ defmodule Idp.Users.User do
         |> put_change(:password, changes.changes[:new_password])
         |> put_password_hash()
 
-      _ -> changes
+      _ ->
+        changes
     end
   end
 

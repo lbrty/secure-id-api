@@ -12,7 +12,8 @@ defmodule Idp.Validators.Password do
     } = changeset.changes
 
     case confirmation do
-      ^password -> changeset
+      ^password ->
+        changeset
 
       _ ->
         changeset
@@ -28,7 +29,9 @@ defmodule Idp.Validators.Password do
     %{password_hash: hash} = changeset.data
 
     case Auth.password_valid?(pass, hash) do
-      true -> changeset
+      true ->
+        changeset
+
       _ ->
         changeset
         |> add_error(:password, "Password is invalid")

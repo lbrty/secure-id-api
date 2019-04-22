@@ -46,16 +46,16 @@ defmodule IdpWeb.AuthSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"login" => nil},
-        "errors" => [
-          %{
-            "code" => "invalid_credentials",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "Invalid credentials",
-            "path" => ["login"]
-          }
-        ]
-      }
+               "data" => %{"login" => nil},
+               "errors" => [
+                 %{
+                   "code" => "invalid_credentials",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "Invalid credentials",
+                   "path" => ["login"]
+                 }
+               ]
+             }
     end
 
     test "login returns error if user does not exist", %{conn: conn} do
@@ -75,16 +75,16 @@ defmodule IdpWeb.AuthSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"login" => nil},
-        "errors" => [
-          %{
-            "code" => "user_not_found",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "User not found",
-            "path" => ["login"]
-          }
-        ]
-      }
+               "data" => %{"login" => nil},
+               "errors" => [
+                 %{
+                   "code" => "user_not_found",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "User not found",
+                   "path" => ["login"]
+                 }
+               ]
+             }
     end
 
     test "login returns error if user is inactive", %{conn: conn} do
@@ -104,16 +104,16 @@ defmodule IdpWeb.AuthSchemaTest do
         |> json_response(200)
 
       assert result == %{
-        "data" => %{"login" => nil},
-        "errors" => [
-          %{
-            "code" => "user_not_active",
-            "locations" => [%{"column" => 0, "line" => 2}],
-            "message" => "User is not active",
-            "path" => ["login"]
-          }
-        ]
-      }
+               "data" => %{"login" => nil},
+               "errors" => [
+                 %{
+                   "code" => "user_not_active",
+                   "locations" => [%{"column" => 0, "line" => 2}],
+                   "message" => "User is not active",
+                   "path" => ["login"]
+                 }
+               ]
+             }
     end
   end
 end

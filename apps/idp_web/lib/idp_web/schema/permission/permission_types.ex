@@ -10,5 +10,7 @@ defmodule IdpWeb.Schema.PermissionTypes do
     field(:view_contacts, :boolean)
     field(:view_documents, :boolean)
     field(:view_personal, :boolean)
+    field(:user, :user, resolve: assoc(:user))
+    field(:project, :project, resolve: assoc(:project))
   end
 end

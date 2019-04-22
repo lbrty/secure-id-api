@@ -6,7 +6,9 @@ defmodule IdpWeb.AuthRequired do
 
   def call(resolution = %{context: context}, _config) do
     case Map.has_key?(context, :user) do
-      true -> resolution
+      true ->
+        resolution
+
       _ ->
         resolution
         |> Resolution.put_result(@not_authenticated)

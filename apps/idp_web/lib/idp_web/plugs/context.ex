@@ -22,9 +22,7 @@ defmodule IdpWeb.Context do
   defp build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, user} <- authorize(token) do
-
       %{user: user, token: token}
-
     else
       # In case if no token found and no headers set
       # we just return empty context.

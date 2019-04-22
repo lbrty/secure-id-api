@@ -20,7 +20,7 @@ defmodule Idp.Umbrella.MixProject do
   defp aliases do
     [
       lint: ["credo --strict", "inch"],
-      fmt: ["format mix.exs \"lib/**/*.{ex,exs}\" \"test/**/*.{ex,exs}\" \"apps/**/*/.{ex,exs}\""],
+      fmt: ["format mix.exs \"apps/**/*/.{ex,exs}\""],
       "test.all": [
         "cmd --app idp --app idp_web mix test --color --trace"
       ],

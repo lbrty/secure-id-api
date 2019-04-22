@@ -31,7 +31,8 @@ defmodule Idp.EctoHelpers do
   """
   def action_wrapped(fun) do
     case fun.() do
-      {:ok, result} -> {:ok, result}
+      {:ok, result} ->
+        {:ok, result}
 
       {:error, changeset = %Changeset{}} ->
         {
@@ -44,7 +45,8 @@ defmodule Idp.EctoHelpers do
         }
 
       # Case for our standard errors in `IdpWeb.Schema.Errors`
-      {:error, %{code: _}} = error -> error
+      {:error, %{code: _}} = error ->
+        error
 
       {:error, _} ->
         {

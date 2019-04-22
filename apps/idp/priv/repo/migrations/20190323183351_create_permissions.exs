@@ -16,6 +16,5 @@ defmodule Idp.Repo.Migrations.CreatePermissions do
 
       timestamps()
     end
-
   end
 end

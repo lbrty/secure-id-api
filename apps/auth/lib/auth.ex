@@ -28,7 +28,8 @@ defmodule Auth do
         {:ok, %Users.User{} = _user} ->
           {:ok, %{result: :ok}}
 
-        error_result -> error_result
+        error_result ->
+          error_result
       end
     end
   end

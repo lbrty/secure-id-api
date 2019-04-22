@@ -36,6 +36,7 @@ defmodule IdpWeb.Endpoint do
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   signing_salt = System.get_env("SIGNING_SALT")
+
   plug Plug.Session,
     store: :cookie,
     key: "_idp_web_key",

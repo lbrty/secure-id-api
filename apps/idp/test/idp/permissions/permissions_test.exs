@@ -6,9 +6,33 @@ defmodule Idp.PermissionsTest do
   describe "permissions" do
     alias Idp.Permissions.Permission
 
-    @valid_attrs %{can_create: true, can_delete: true, can_read: true, can_update: true, view_contacts: true, view_documents: true, view_personal: true}
-    @update_attrs %{can_create: false, can_delete: false, can_read: false, can_update: false, view_contacts: false, view_documents: false, view_personal: false}
-    @invalid_attrs %{can_create: nil, can_delete: nil, can_read: nil, can_update: nil, view_contacts: nil, view_documents: nil, view_personal: nil}
+    @valid_attrs %{
+      can_create: true,
+      can_delete: true,
+      can_read: true,
+      can_update: true,
+      view_contacts: true,
+      view_documents: true,
+      view_personal: true
+    }
+    @update_attrs %{
+      can_create: false,
+      can_delete: false,
+      can_read: false,
+      can_update: false,
+      view_contacts: false,
+      view_documents: false,
+      view_personal: false
+    }
+    @invalid_attrs %{
+      can_create: nil,
+      can_delete: nil,
+      can_read: nil,
+      can_update: nil,
+      view_contacts: nil,
+      view_documents: nil,
+      view_personal: nil
+    }
 
     def permission_fixture(attrs \\ %{}) do
       {:ok, permission} =
@@ -46,7 +70,10 @@ defmodule Idp.PermissionsTest do
 
     test "update_permission/2 with valid data updates the permission" do
       permission = permission_fixture()
-      assert {:ok, %Permission{} = permission} = Permissions.update_permission(permission, @update_attrs)
+
+      assert {:ok, %Permission{} = permission} =
+               Permissions.update_permission(permission, @update_attrs)
+
       assert permission.can_create == false
       assert permission.can_delete == false
       assert permission.can_read == false
@@ -58,7 +85,10 @@ defmodule Idp.PermissionsTest do
 
     test "update_permission/2 with invalid data returns error changeset" do
       permission = permission_fixture()
-      assert {:error, %Ecto.Changeset{}} = Permissions.update_permission(permission, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Permissions.update_permission(permission, @invalid_attrs)
+
       assert permission == Permissions.get_permission!(permission.id)
     end
 

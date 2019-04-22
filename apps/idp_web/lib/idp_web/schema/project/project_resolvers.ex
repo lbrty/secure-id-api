@@ -55,9 +55,11 @@ defmodule IdpWeb.Schema.ProjectResolvers do
   end
 
   defp list_for_user(nil, _session_user), do: @user_not_found
+
   defp list_for_user(user, %{is_superuser: true}) do
     {:ok, Projects.list_for_user(user)}
   end
+
   defp list_for_user(user, session_user) do
     cond do
       user.id == session_user.id -> {:ok, Projects.list_for_user(user)}

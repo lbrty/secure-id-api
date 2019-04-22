@@ -11,23 +11,23 @@ defmodule IdpWeb.Schema.AuthMutations do
   object :auth_mutations do
     @desc "Authenticate user"
     field :login, :session do
-      arg :email, non_null(:string)
-      arg :password, non_null(:string)
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
 
-      resolve &AuthResolvers.login/2
+      resolve(&AuthResolvers.login/2)
     end
 
     @desc "Register user"
     field :register, :text_result do
-      arg :full_name, non_null(:string)
-      arg :email, non_null(:string)
-      arg :password, non_null(:string)
+      arg(:full_name, non_null(:string))
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
 
-      middleware IdpWeb.AuthRequired
-      middleware IdpWeb.OnlyActiveUser
-      middleware IdpWeb.OnlyAdmin
+      middleware(IdpWeb.AuthRequired)
+      middleware(IdpWeb.OnlyActiveUser)
+      middleware(IdpWeb.OnlyAdmin)
 
-      resolve &AuthResolvers.register/2
+      resolve(&AuthResolvers.register/2)
     end
   end
 end

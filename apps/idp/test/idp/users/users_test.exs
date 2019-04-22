@@ -6,9 +6,27 @@ defmodule Idp.UsersTest do
   describe "users" do
     alias Idp.Users.User
 
-    @valid_attrs %{email: "some email", full_name: "some full_name", is_active: true, is_superuser: true, password_hash: "some password_hash"}
-    @update_attrs %{email: "some updated email", full_name: "some updated full_name", is_active: false, is_superuser: false, password_hash: "some updated password_hash"}
-    @invalid_attrs %{email: nil, full_name: nil, is_active: nil, is_superuser: nil, password_hash: nil}
+    @valid_attrs %{
+      email: "some email",
+      full_name: "some full_name",
+      is_active: true,
+      is_superuser: true,
+      password_hash: "some password_hash"
+    }
+    @update_attrs %{
+      email: "some updated email",
+      full_name: "some updated full_name",
+      is_active: false,
+      is_superuser: false,
+      password_hash: "some updated password_hash"
+    }
+    @invalid_attrs %{
+      email: nil,
+      full_name: nil,
+      is_active: nil,
+      is_superuser: nil,
+      password_hash: nil
+    }
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
