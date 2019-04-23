@@ -329,6 +329,9 @@ defmodule IdpWeb.PermissionsSchemaTest do
       }
     end
 
+    test "users can not leave project if not exists", %{conn: conn} do
+    end
+
     test "users can not share project with other users", %{conn: conn} do
     end
 
