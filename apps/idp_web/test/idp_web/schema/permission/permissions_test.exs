@@ -330,6 +330,34 @@ defmodule IdpWeb.PermissionsSchemaTest do
     end
 
     test "users can not leave project if not exists", %{conn: conn} do
+      user = Users.get_by_email("admin1@email.com")
+      mutation = %{
+        query: """
+        mutation {
+          leaveProject(project_id: 123) {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"leaveProject" => nil},
+        "errors" => [
+          %{
+            "code" => "not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Project not found",
+            "path" => ["leaveProject"]
+          }
+        ]
+      }
     end
 
     test "users can not share project with other users", %{conn: conn} do
