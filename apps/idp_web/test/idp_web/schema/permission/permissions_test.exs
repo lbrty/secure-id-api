@@ -361,12 +361,119 @@ defmodule IdpWeb.PermissionsSchemaTest do
     end
 
     test "users can not share project with other users", %{conn: conn} do
+      user = Users.get_by_email("user4@email.com")
+
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+
+      mutation = %{
+        query: """
+        mutation {
+          shareProject(
+            project_id: #{pid},
+            user_id: #{user.id},
+            permission: {
+              can_create: true,
+              can_read: true,
+              can_update: false,
+              can_delete: false,
+              view_contacts: false,
+              view_documents: false,
+              view_personal: false
+            }
+          ) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"shareProject" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["shareProject"]
+          }
+        ]
+      }
     end
 
     test "users can see only their own permissions", %{conn: conn} do
+      mutation = %{
+        query: """
+        {
+          permissions {
+            project {
+              name
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "permissions" => [
+            %{"project" => %{"name" => "Project X"}}
+          ]
+        }
+      }
     end
 
-    test "users can not see permissions for any project", %{conn: conn} do
+    test "users can not see permissions for any other user", %{conn: conn} do
+      user = Users.get_by_email("user2@email.com")
+      mutation = %{
+        query: """
+        {
+          permissions(user_id: #{user.id}) {
+            project {
+              name
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"permissions" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["permissions"]
+          }
+        ]
+      }
     end
   end
 
