@@ -4,6 +4,7 @@ defmodule Idp.Permissions do
   """
   use Idp.Query
   alias Idp.Permissions.Permission
+  alias Idp.Users.User
 
   @doc """
   Returns the list of permissions.
@@ -16,6 +17,25 @@ defmodule Idp.Permissions do
   """
   def list_permissions do
     Repo.all(Permission)
+  end
+
+  @doc """
+  Returns the list of permissions for `%User{} = user`.
+  In case if user is superuser all permissions returned
+  otherwise only shared permissions returned.
+
+  ## Examples
+
+      iex> list_for_user(user)
+      [%Project{}, ...]
+  """
+  def list_for_user(%User{} = user) do
+    query =
+      from p in Permission,
+        where: p.user_id == ^user.id,
+        preload: [:project, :user]
+
+    Repo.all(query)
   end
 
   @doc """
