@@ -1,7 +1,6 @@
 defmodule Idp.Users.User do
   use Idp.Model
 
-  alias __MODULE__
   alias Idp.Validators
   alias Idp.Permissions.Permission
 
@@ -25,7 +24,7 @@ defmodule Idp.Users.User do
 
   @doc false
   def build(params) do
-    %User{}
+    %__MODULE__{}
     |> changeset(params)
   end
 
