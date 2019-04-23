@@ -135,6 +135,158 @@ defmodule IdpWeb.PermissionsSchemaTest do
       }
     end
 
+    test "sharing project is impossible with user if does not exist", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+
+      mutation = %{
+        query: """
+        mutation {
+          shareProject(
+            project_id: #{pid},
+            user_id: 123,
+            permission: {
+              can_create: true,
+              can_read: true,
+              can_update: false,
+              can_delete: false,
+              view_contacts: false,
+              view_documents: false,
+              view_personal: false
+            }
+          ) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"shareProject" => nil},
+        "errors" => [
+          %{
+            "code" => "user_not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "User not found",
+            "path" => ["shareProject"]
+          }
+        ]
+      }
+    end
+
+    test "sharing project is impossible with project if does not exist", %{conn: conn} do
+      user = Users.get_by_email("user4@email.com")
+
+      mutation = %{
+        query: """
+        mutation {
+          shareProject(
+            project_id: 123,
+            user_id: #{user.id},
+            permission: {
+              can_create: true,
+              can_read: true,
+              can_update: false,
+              can_delete: false,
+              view_contacts: false,
+              view_documents: false,
+              view_personal: false
+            }
+          ) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"shareProject" => nil},
+        "errors" => [
+          %{
+            "code" => "not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Project not found",
+            "path" => ["shareProject"]
+          }
+        ]
+      }
+    end
+
+    test "admins can not share project with other admins", %{conn: conn} do
+      user = Users.get_by_email("admin2@email.com")
+
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      pid =
+        admin_conn
+        |> get_project()
+        |> Map.get("id")
+
+      mutation = %{
+        query: """
+        mutation {
+          shareProject(
+            project_id: #{pid},
+            user_id: #{user.id},
+            permission: {
+              can_create: true,
+              can_read: true,
+              can_update: false,
+              can_delete: false,
+              view_contacts: false,
+              view_documents: false,
+              view_personal: false
+            }
+          ) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"shareProject" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_exists",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission already exists",
+            "path" => ["shareProject"]
+          }
+        ]
+      }
+    end
+
     test "users can abandon shared projects", %{conn: conn} do
     end
 
