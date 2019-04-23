@@ -20,11 +20,11 @@ defmodule IdpWeb.Schema.Errors do
         }
       }
 
-      @membership_exists {
+      @permission_exists {
         :error,
         %{
-          message: gettext("Membership already exists"),
-          code: :membership_exists
+          message: gettext("Permission already exists"),
+          code: :permission_exists
         }
       }
 
