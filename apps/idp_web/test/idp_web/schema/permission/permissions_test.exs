@@ -287,10 +287,49 @@ defmodule IdpWeb.PermissionsSchemaTest do
       }
     end
 
-    test "users can abandon shared projects", %{conn: conn} do
+    test "users can leave shared projects", %{conn: conn} do
+      user = Users.get_by_email("admin1@email.com")
+
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      project =
+        admin_conn
+        |> get_project()
+
+      pid =
+        project
+        |> Map.get("id")
+
+      name =
+        project
+        |> Map.get("name")
+
+      mutation = %{
+        query: """
+        mutation {
+          leaveProject(project_id: #{pid}) {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "leaveProject" => %{"name" => "Project X"}
+        }
+      }
     end
 
-    test "users can share project with user", %{conn: conn} do
+    test "users can not share project with other users", %{conn: conn} do
     end
 
     test "users can see only their own permissions", %{conn: conn} do
