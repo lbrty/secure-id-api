@@ -4,8 +4,15 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   alias Idp.{Permissions, Projects, Users}
   alias Idp.EctoHelpers
 
-  def list(_parent, args, _context) when args == %{} do
-    {:ok, Permissions.list_permissions()}
+  def list(
+    parent,
+    args,
+    %{context: %{user: session_user}} = context
+  ) when args == %{} do
+    case session_user.is_superuser do
+      true -> {:ok, Permissions.list_permissions()}
+      _ -> list_for_user(session_user, session_user)
+    end
   end
 
   def list(_parent, %{user_id: uid}, %{context: %{user: session_user}}) do
