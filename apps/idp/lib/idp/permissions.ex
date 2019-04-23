@@ -5,6 +5,7 @@ defmodule Idp.Permissions do
   use Idp.Query
   alias Idp.Permissions.Permission
   alias Idp.Users.User
+  alias Idp.Projects.Project
 
   @doc """
   Returns the list of permissions.
@@ -38,21 +39,29 @@ defmodule Idp.Permissions do
     Repo.all(query)
   end
 
+  def for_project_and_user(%Project{} = project, %User{} = user) do
+    query =
+      from p in Permission,
+        where: p.user_id == ^user.id and p.project_id == ^project.id
+
+    Repo.one(query)
+  end
+
   @doc """
   Gets a single permission.
 
-  Raises `Ecto.NoResultsError` if the Permission does not exist.
+  Returns `nil` if the Permission does not exist.
 
   ## Examples
 
-      iex> get_permission!(123)
+      iex> get_permission(123)
       %Permission{}
 
-      iex> get_permission!(456)
-      ** (Ecto.NoResultsError)
+      iex> get_permission(456)
+      nil
 
   """
-  def get_permission!(id), do: Repo.get!(Permission, id)
+  def get_permission(id), do: Repo.get!(Permission, id)
 
   @doc """
   Creates a permission.
