@@ -15,14 +15,14 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   end
 
   def create(
-    _parent,
-    %{
-      project_id: pid,
-      user_id: uid,
-      permission: permission
-    },
-    _context
-  ) do
+        _parent,
+        %{
+          project_id: pid,
+          user_id: uid,
+          permission: permission
+        },
+        _context
+      ) do
     EctoHelpers.action_wrapped(fn ->
       pid
       |> Projects.get_project()
@@ -33,6 +33,11 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   # Share project with user (create permission)
   defp share_project(nil, _user, _permission), do: @project_not_found
   defp share_project(_project, nil, _permission), do: @user_not_found
+
+  defp share_project(_project, %{is_superuser: true}, _permission) do
+    @permission_exists
+  end
+
   defp share_project(project, user, permission) do
     permission
     |> Map.put(:project_id, project.id)
@@ -46,9 +51,11 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   # users can only query permissions
   # which only belong to them.
   defp list_for_user(nil, _), do: @not_found
+
   defp list_for_user(user, %{is_superuser: true}) do
     {:ok, Permissions.list_for_user(user)}
   end
+
   defp list_for_user(user, %{id: uid}) do
     case user.id do
       ^uid -> {:ok, Permissions.list_for_user(user)}
