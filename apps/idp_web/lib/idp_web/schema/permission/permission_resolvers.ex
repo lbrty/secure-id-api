@@ -5,7 +5,7 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   alias Idp.EctoHelpers
 
   def list(
-    parent,
+    _parent,
     args,
     %{context: %{user: session_user}}
   ) when args == %{} do
