@@ -7,7 +7,7 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   def list(
     parent,
     args,
-    %{context: %{user: session_user}} = context
+    %{context: %{user: session_user}}
   ) when args == %{} do
     case session_user.is_superuser do
       true -> {:ok, Permissions.list_permissions()}
