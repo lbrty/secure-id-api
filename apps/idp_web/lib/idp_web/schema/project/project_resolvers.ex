@@ -1,7 +1,7 @@
 defmodule IdpWeb.Schema.ProjectResolvers do
   use IdpWeb.Schema.Errors
 
-  alias Idp.{Projects, Users}
+  alias Idp.{Permissions, Projects, Users}
   alias Idp.EctoHelpers
 
   def create(_parent, project, _context) do
@@ -54,16 +54,37 @@ defmodule IdpWeb.Schema.ProjectResolvers do
     end)
   end
 
-  defp list_for_user(nil, _session_user), do: @user_not_found
+  def leave(_parent, %{project_id: pid}, %{context: %{user: session_user}}) do
+    pid
+    |> Projects.get_project()
+    |> leave_project(session_user)
+  end
 
+  defp leave_project(nil, _user), do: @project_not_found
+  defp leave_project(project, user) do
+    EctoHelpers.action_wrapped(fn ->
+      result =
+        project
+        |> Permissions.for_project_and_user(user)
+        |> Permissions.delete_permission()
+
+      case result do
+        {:ok, _} -> {:ok, project}
+        error -> error
+      end
+    end)
+  end
+
+  defp list_for_user(nil, _session_user), do: @user_not_found
   defp list_for_user(user, %{is_superuser: true}) do
     {:ok, Projects.list_for_user(user)}
   end
 
   defp list_for_user(user, session_user) do
-    cond do
-      user.id == session_user.id -> {:ok, Projects.list_for_user(user)}
-      true -> @permission_denied
+    uid = user.id
+    case session_user.id do
+      ^uid -> {:ok, Projects.list_for_user(user)}
+      _ -> @permission_denied
     end
   end
 

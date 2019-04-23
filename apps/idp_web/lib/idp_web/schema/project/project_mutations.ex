@@ -37,5 +37,15 @@ defmodule IdpWeb.Schema.ProjectMutations do
 
       resolve(&ProjectResolvers.delete/3)
     end
+
+    @desc "Leave project"
+    field :leave_project, :project do
+      arg(:project_id, non_null(:integer))
+
+      middleware(IdpWeb.AuthRequired)
+      middleware(IdpWeb.OnlyActiveUser)
+
+      resolve(&ProjectResolvers.leave/3)
+    end
   end
 end
