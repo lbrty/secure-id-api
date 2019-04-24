@@ -1,7 +1,7 @@
 defmodule IdpWeb.PermissionsSchemaTest do
   use IdpWeb.WebCase
 
-  alias Idp.Users
+  alias Idp.{Permissions, Users}
   alias IdpWeb.TestUtils
 
   @moduletag :permissions
@@ -131,6 +131,125 @@ defmodule IdpWeb.PermissionsSchemaTest do
           "shareProject" => %{
             "user" => %{"email" => "user4@email.com"}
           }
+        }
+      }
+    end
+
+    test "admins can delete permissions for user in project", %{conn: conn} do
+      permission =
+        "user1@email.com"
+        |> Users.get_by_email()
+        |> Permissions.list_for_user()
+        |> hd()
+
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      mutation = %{
+        query: """
+        mutation {
+          deletePermission(permission_id: #{permission.id}) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "deletePermission" => %{
+            "user" => %{"email" => "user1@email.com"}
+          }
+        }
+      }
+    end
+
+    test "admins can not delete non existent permission", %{conn: conn} do
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      mutation = %{
+        query: """
+        mutation {
+          deletePermission(permission_id: 123) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"deletePermission" => nil},
+        "errors" => [
+          %{
+            "code" => "not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Not found",
+            "path" => ["deletePermission"]
+          }
+        ]
+      }
+    end
+
+    test "admins can update permissions for user in project", %{conn: conn} do
+      permission =
+        "user1@email.com"
+        |> Users.get_by_email()
+        |> Permissions.list_for_user()
+        |> hd()
+
+      admin_conn =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+
+      mutation = %{
+        query: """
+        mutation {
+          updatePermission(
+            permission_id: #{permission.id},
+
+            permission: {
+              can_create: true,
+              can_read: true,
+              can_update: true,
+              can_delete: true,
+              view_contacts: false,
+              view_documents: false,
+              view_personal: false
+            }
+          ) {
+            user {
+              email
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        admin_conn
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "updatePermission" => %{"user" => %{"email" => "user1@email.com"}}
         }
       }
     end
@@ -288,8 +407,6 @@ defmodule IdpWeb.PermissionsSchemaTest do
     end
 
     test "users can leave shared projects", %{conn: conn} do
-      user = Users.get_by_email("admin1@email.com")
-
       admin_conn =
         conn
         |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
@@ -324,13 +441,12 @@ defmodule IdpWeb.PermissionsSchemaTest do
 
       assert result == %{
         "data" => %{
-          "leaveProject" => %{"name" => "Project X"}
+          "leaveProject" => %{"name" => name}
         }
       }
     end
 
     test "users can not leave project if not exists", %{conn: conn} do
-      user = Users.get_by_email("admin1@email.com")
       mutation = %{
         query: """
         mutation {
