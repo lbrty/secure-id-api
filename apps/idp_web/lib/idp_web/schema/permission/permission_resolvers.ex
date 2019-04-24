@@ -22,18 +22,47 @@ defmodule IdpWeb.Schema.PermissionResolvers do
   end
 
   def create(
-        _parent,
-        %{
-          project_id: pid,
-          user_id: uid,
-          permission: permission
-        },
-        _context
-      ) do
+    _parent,
+    %{
+      project_id: pid,
+      user_id: uid,
+      permission: permission
+    },
+    _context
+  ) do
     EctoHelpers.action_wrapped(fn ->
       pid
       |> Projects.get_project()
       |> share_project(Users.get_user(uid), permission)
+    end)
+  end
+
+  def update(_parent, %{permission_id: pid, permission: payload}, _context) do
+    pid
+    |> Permissions.get_permission()
+    |> update_permission(payload)
+  end
+
+  def delete(_parent, %{permission_id: pid}, _context) do
+    pid
+    |> Permissions.get_permission()
+    |> delete_permission()
+  end
+
+  # Private helpers with delegated states and results
+  defp update_permission(nil, _payload), do: @not_found
+  defp update_permission(permission, payload) do
+    EctoHelpers.action_wrapped(fn ->
+      permission
+      |> Permissions.update_permission(payload)
+    end)
+  end
+
+  defp delete_permission(nil), do: @not_found
+  defp delete_permission(permission) do
+    EctoHelpers.action_wrapped(fn ->
+      permission
+      |> Permissions.delete_permission()
     end)
   end
 
