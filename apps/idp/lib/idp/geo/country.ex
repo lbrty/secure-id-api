@@ -1,4 +1,4 @@
-defmodule Idp.Geo.Country do
+defmodule Idp.Geo.Countries.Country do
   use Idp.Model
   alias Idp.Geo.State
 
