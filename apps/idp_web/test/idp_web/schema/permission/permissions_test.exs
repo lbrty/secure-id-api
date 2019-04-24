@@ -234,6 +234,14 @@ defmodule IdpWeb.PermissionsSchemaTest do
               view_personal: false
             }
           ) {
+            can_create
+            can_read
+            can_update
+            can_delete
+            view_contacts
+            view_documents
+            view_personal
+
             user {
               email
             }
@@ -249,7 +257,16 @@ defmodule IdpWeb.PermissionsSchemaTest do
 
       assert result == %{
         "data" => %{
-          "updatePermission" => %{"user" => %{"email" => "user1@email.com"}}
+          "updatePermission" => %{
+            "can_create" => true,
+            "can_read" => true,
+            "can_update" => true,
+            "can_delete" => true,
+            "view_contacts" => false,
+            "view_documents" => false,
+            "view_personal" => false,
+            "user" => %{"email" => "user1@email.com"}
+          }
         }
       }
     end
