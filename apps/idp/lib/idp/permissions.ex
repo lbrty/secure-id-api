@@ -28,7 +28,7 @@ defmodule Idp.Permissions do
   ## Examples
 
       iex> list_for_user(user)
-      [%Project{}, ...]
+      [%Permission{}, ...]
   """
   def list_for_user(%User{} = user) do
     query =
@@ -40,11 +40,31 @@ defmodule Idp.Permissions do
   end
 
   def for_project_and_user(%Project{} = project, %User{} = user) do
-    query =
-      from p in Permission,
-        where: p.user_id == ^user.id and p.project_id == ^project.id
+    query = from(
+      p in Permission,
+      where: p.user_id == ^user.id and p.project_id == ^project.id
+    )
 
     Repo.one(query)
+  end
+
+  @doc """
+  Check if given user has membership in project.
+  Else we check if current user has valid
+  membership.
+  """
+  def exists?(user, project) do
+    query = from(
+      m in Permission,
+      where: m.project_id == ^project.id and m.user_id == ^user.id
+    )
+
+    case Repo.one(query) do
+      nil -> false
+      # May be consider
+      # Ecto.MultipleResultsError -> false
+      _ -> true
+    end
   end
 
   @doc """
@@ -61,7 +81,7 @@ defmodule Idp.Permissions do
       nil
 
   """
-  def get_permission(id), do: Repo.get!(Permission, id)
+  def get_permission(id), do: Repo.get(Permission, id)
 
   @doc """
   Creates a permission.
