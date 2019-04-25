@@ -8,7 +8,7 @@ defmodule IdpWeb.PermissionsSchemaTest do
 
   describe "🚨 permissions ::" do
     test "admins can see permissions across all projects", %{conn: conn} do
-      mutation = %{
+      query = %{
         query: """
         {
           permissions {
@@ -27,7 +27,7 @@ defmodule IdpWeb.PermissionsSchemaTest do
       result =
         conn
         |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
-        |> post("/api", mutation)
+        |> post("/api", query)
         |> json_response(200)
 
       assert result == %{
