@@ -1,7 +1,10 @@
 defmodule Idp.Seeds do
   alias Idp.{Permissions, Projects, Users}
+  alias Idp.Seeds.Geo
 
   def run() do
+    Geo.run()
+
     Users.register_user(%{email: "admin@email.com", full_name: "Admin", password: "12345678", is_superuser: true, is_active: true})
     {:ok, user1} = Users.register_user(%{email: "user1@email.com", full_name: "User 1", password: "12345678", is_superuser: false, is_active: true})
     {:ok, user2} = Users.register_user(%{email: "user2@email.com", full_name: "User 2", password: "12345678", is_superuser: false, is_active: true})
