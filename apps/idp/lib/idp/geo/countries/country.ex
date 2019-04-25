@@ -3,7 +3,7 @@ defmodule Idp.Geo.Countries.Country do
   alias Idp.Geo.States.State
 
   schema "countries" do
-    field :title, :string
+    field :name, :string
     has_many :states, State
 
     timestamps()
@@ -12,9 +12,9 @@ defmodule Idp.Geo.Countries.Country do
   @doc false
   def changeset(country, attrs) do
     country
-    |> cast(attrs, [:title])
-    |> validate_required([:title])
-    |> validate_length(:title, min: 3, max: 40)
-    |> unique_constraint(:title)
+    |> cast(attrs, [:name])
+    |> validate_required([:name])
+    |> validate_length(:name, min: 3, max: 40)
+    |> unique_constraint(:name)
   end
 end

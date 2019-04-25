@@ -3,11 +3,11 @@ defmodule Idp.Repo.Migrations.CreateCountries do
 
   def change do
     create table(:countries) do
-      add :title, :string
+      add :name, :string
 
       timestamps()
     end
 
-    create unique_index(:countries, [:title])
+    create unique_index(:countries, [:name])
   end
 end

@@ -3,7 +3,7 @@ defmodule Idp.Repo.Migrations.CreateCities do
 
   def change do
     create table(:cities) do
-      add :title, :string
+      add :name, :string
       add :state_id, references(:states, on_delete: :delete_all)
 
       timestamps()

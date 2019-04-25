@@ -33,6 +33,15 @@ defmodule Idp.Geo.Countries do
 
   """
   def get_country(id), do: Repo.get(Country, id)
+  def get_by_name(name) do
+    query = from(
+      c in Country,
+      # TODO: look if like statement injections possible
+      where: ilike(c.name, ^"%#{name}%")
+    )
+
+    Repo.all(query)
+  end
 
   @doc """
   Creates a new Country.
