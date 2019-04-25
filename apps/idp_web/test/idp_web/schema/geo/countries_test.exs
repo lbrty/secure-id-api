@@ -61,5 +61,55 @@ defmodule IdpWeb.CountriessSchemaTest do
         ]
       }
     end
+
+    test "users can filter countries by name", %{conn: conn} do
+      query = %{
+        query: """
+        {
+          countries(name: "Ger") {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "countries" => [
+            %{"name" => "Germany"}
+          ]
+        }
+      }
+
+      query = %{
+        query: """
+        {
+          countries(name: "Kyrgyz") {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "countries" => [
+            %{"name" => "Kyrgyzstan"}
+          ]
+        }
+      }
+    end
   end
 end
