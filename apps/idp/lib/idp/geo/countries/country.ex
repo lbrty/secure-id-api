@@ -1,6 +1,6 @@
 defmodule Idp.Geo.Countries.Country do
   use Idp.Model
-  alias Idp.Geo.State
+  alias Idp.Geo.States.State
 
   schema "countries" do
     field :title, :string
