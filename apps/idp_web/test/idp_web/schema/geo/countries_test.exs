@@ -1,4 +1,4 @@
-defmodule IdpWeb.CountriessSchemaTest do
+defmodule IdpWeb.CountriesSchemaTest do
   use IdpWeb.WebCase
 
   alias IdpWeb.TestUtils
