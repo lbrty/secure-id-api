@@ -19,6 +19,7 @@ defmodule IdpWeb.Schema do
 
   import_types(IdpWeb.Schema.CountryTypes)
   import_types(IdpWeb.Schema.CountryQueries)
+  import_types(IdpWeb.Schema.CountryMutations)
 
   # Import authentication definitions
   import_types(IdpWeb.Schema.AuthTypes)
@@ -36,5 +37,6 @@ defmodule IdpWeb.Schema do
     import_fields(:project_mutations)
     import_fields(:user_mutations)
     import_fields(:permission_mutations)
+    import_fields(:country_mutations)
   end
 end
