@@ -13,5 +13,17 @@ defmodule IdpWeb.Schema.CountryMutations do
 
       resolve(&CountryResolvers.create/3)
     end
+
+    @desc "Update country"
+    field :update_country, :country do
+      arg(:country_id, non_null(:integer))
+      arg(:name, non_null(:string))
+
+      middleware(IdpWeb.AuthRequired)
+      middleware(IdpWeb.OnlyActiveUser)
+      middleware(IdpWeb.OnlyAdmin)
+
+      resolve(&CountryResolvers.update/3)
+    end
   end
 end

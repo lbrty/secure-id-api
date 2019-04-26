@@ -17,4 +17,14 @@ defmodule IdpWeb.Schema.CountryResolvers do
   def list(_parent, %{name: name}, _context) do
     {:ok, Countries.get_by_name(name)}
   end
+
+  def update(_parent, %{country_id: id, name: name}, _ctx) do
+    case Countries.get_country(id) do
+      nil -> @not_found
+      country ->
+        EctoHelpers.action_wrapped(fn ->
+          Countries.update_country(country, %{name: name})
+        end)
+    end
+  end
 end
