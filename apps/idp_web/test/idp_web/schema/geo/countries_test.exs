@@ -285,6 +285,41 @@ defmodule IdpWeb.CountriesSchemaTest do
       }
     end
 
+    test "update validations work", %{conn: conn} do
+      country =
+        Countries.list_countries()
+        |> hd()
+
+      mutation = %{
+        query: """
+        mutation {
+          updateCountry(country_id: #{country.id}, name: "up") {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateCountry" => nil},
+        "errors" => [
+          %{
+            "code" => "schema_errors",
+            "errors" => %{"name" => "should be at least 3 character(s)"},
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Changeset errors occurred",
+            "path" => ["updateCountry"]
+          }
+        ]
+      }
+    end
+
     test "users can not delete country", %{conn: conn} do
       country =
         Countries.list_countries()
