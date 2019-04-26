@@ -2,6 +2,7 @@ defmodule IdpWeb.CountriesSchemaTest do
   use IdpWeb.WebCase
 
   alias Idp.Users
+  alias Idp.Geo.Countries
   alias IdpWeb.TestUtils
 
   @moduletag :countries
@@ -88,7 +89,7 @@ defmodule IdpWeb.CountriesSchemaTest do
       }
     end
 
-    test "impossible to create duplicate countries", %{conn: conn} do
+    test "impossible to create duplicate country", %{conn: conn} do
       mutation = %{
         query: """
         mutation {
@@ -218,6 +219,68 @@ defmodule IdpWeb.CountriesSchemaTest do
           "countries" => [
             %{"name" => "Kyrgyzstan"}
           ]
+        }
+      }
+    end
+
+    test "users can not update country", %{conn: conn} do
+      country =
+        Countries.list_countries()
+        |> hd()
+
+      mutation = %{
+        query: """
+        mutation {
+          updateCountry(country_id: #{country.id}, name: "Update country") {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateCountry" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["updateCountry"]
+          }
+        ]
+      }
+    end
+
+    test "admins can update country", %{conn: conn} do
+      country =
+        Countries.list_countries()
+        |> hd()
+
+      mutation = %{
+        query: """
+        mutation {
+          updateCountry(country_id: #{country.id}, name: "Update country") {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "updateCountry" => %{"name" => "Update country"}
         }
       }
     end
