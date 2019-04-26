@@ -5,7 +5,7 @@ defmodule IdpWeb.Schema.CountryMutations do
   object :country_mutations do
     @desc "Create country"
     field :create_country, :country do
-      arg(:country, :country_input)
+      arg(:name, non_null(:string))
 
       middleware(IdpWeb.AuthRequired)
       middleware(IdpWeb.OnlyActiveUser)

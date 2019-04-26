@@ -38,7 +38,7 @@ defmodule IdpWeb.CountriesSchemaTest do
       mutation = %{
         query: """
         mutation {
-          createCountry(country: {name: "West Britannia"}) {
+          createCountry(name: "West Britannia") {
             name
           }
         }
@@ -68,7 +68,7 @@ defmodule IdpWeb.CountriesSchemaTest do
       mutation = %{
         query: """
         mutation {
-          createCountry(country: {name: "West Britannia"}) {
+          createCountry(name: "West Britannia") {
             name
           }
         }
@@ -92,7 +92,7 @@ defmodule IdpWeb.CountriesSchemaTest do
       mutation = %{
         query: """
         mutation {
-          createCountry(country: {name: "Germany"}) {
+          createCountry(name: "Germany") {
             name
           }
         }

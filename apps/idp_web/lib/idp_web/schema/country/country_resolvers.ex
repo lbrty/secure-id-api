@@ -4,7 +4,7 @@ defmodule IdpWeb.Schema.CountryResolvers do
   alias Idp.Geo.Countries
   alias Idp.EctoHelpers
 
-  def create(_parent, %{country: country}, _ctx) do
+  def create(_parent, country, _ctx) do
     EctoHelpers.action_wrapped(fn ->
       Countries.create_country(country)
     end)
