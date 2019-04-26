@@ -88,6 +88,37 @@ defmodule IdpWeb.CountriesSchemaTest do
       }
     end
 
+    test "impossible to create duplicate countries", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          createCountry(country: {name: "Germany"}) {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"createCountry" => nil},
+        "errors" => [
+          %{
+            "code" => "schema_errors",
+            "errors" => %{"name" => "has already been taken"},
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Changeset errors occurred",
+            "path" => ["createCountry"]
+          }
+        ]
+      }
+    end
+
     test "filtering for unknown country returns empty result", %{conn: conn} do
       query = %{
         query: """
