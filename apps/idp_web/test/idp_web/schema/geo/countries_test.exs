@@ -346,5 +346,65 @@ defmodule IdpWeb.CountriesSchemaTest do
         }
       }
     end
+
+    test "admins can not update non existent country", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          updateCountry(country_id: 123, name: "XXX") {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"updateCountry" => nil},
+        "errors" => [
+          %{
+            "code" => "not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Not found",
+            "path" => ["updateCountry"]
+          }
+        ]
+      }
+    end
+
+    test "admins can not delete non existent country", %{conn: conn} do
+      mutation = %{
+        query: """
+        mutation {
+          deleteCountry(country_id: 123) {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"deleteCountry" => nil},
+        "errors" => [
+          %{
+            "code" => "not_found",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Not found",
+            "path" => ["deleteCountry"]
+          }
+        ]
+      }
+    end
   end
 end
