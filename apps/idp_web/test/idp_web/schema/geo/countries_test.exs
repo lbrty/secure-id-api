@@ -284,5 +284,67 @@ defmodule IdpWeb.CountriesSchemaTest do
         }
       }
     end
+
+    test "users can not delete country", %{conn: conn} do
+      country =
+        Countries.list_countries()
+        |> hd()
+
+      mutation = %{
+        query: """
+        mutation {
+          deleteCountry(country_id: #{country.id}) {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{"deleteCountry" => nil},
+        "errors" => [
+          %{
+            "code" => "permission_denied",
+            "locations" => [%{"column" => 0, "line" => 2}],
+            "message" => "Permission denied",
+            "path" => ["deleteCountry"]
+          }
+        ]
+      }
+    end
+
+    test "admins can delete country", %{conn: conn} do
+      country =
+        Countries.list_countries()
+        |> hd()
+
+      mutation = %{
+        query: """
+        mutation {
+          deleteCountry(country_id: #{country.id}) {
+            name
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn(Users.get_by_email("admin@email.com"))
+        |> post("/api", mutation)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "deleteCountry" => %{"name" => country.name}
+        }
+      }
+    end
   end
 end
