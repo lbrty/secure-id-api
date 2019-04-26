@@ -20,10 +20,24 @@ defmodule IdpWeb.Schema.CountryResolvers do
 
   def update(_parent, %{country_id: id, name: name}, _ctx) do
     case Countries.get_country(id) do
-      nil -> @not_found
+      nil ->
+        @not_found
+
       country ->
         EctoHelpers.action_wrapped(fn ->
           Countries.update_country(country, %{name: name})
+        end)
+    end
+  end
+
+  def delete(_parent, %{country_id: id}, _ctx) do
+    case Countries.get_country(id) do
+      nil ->
+        @not_found
+
+      country ->
+        EctoHelpers.action_wrapped(fn ->
+          Countries.delete_country(country)
         end)
     end
   end

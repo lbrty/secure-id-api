@@ -25,5 +25,16 @@ defmodule IdpWeb.Schema.CountryMutations do
 
       resolve(&CountryResolvers.update/3)
     end
+
+    @desc "Delete country"
+    field :delete_country, :country do
+      arg(:country_id, non_null(:integer))
+
+      middleware(IdpWeb.AuthRequired)
+      middleware(IdpWeb.OnlyActiveUser)
+      middleware(IdpWeb.OnlyAdmin)
+
+      resolve(&CountryResolvers.delete/3)
+    end
   end
 end
