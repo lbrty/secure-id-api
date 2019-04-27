@@ -18,7 +18,7 @@ defmodule Idp.EctoHelpers do
   def to_api_errors(%Changeset{} = changeset) do
     changeset
     |> format_errors()
-    |> shape_errors()
+    |> concat_errors()
   end
 
   @doc """
@@ -72,7 +72,7 @@ defmodule Idp.EctoHelpers do
   # Get all errors from `format_errors/1` and
   # join their messages into a single string
   # separated by ","
-  defp shape_errors(errors) do
+  defp concat_errors(errors) do
     Enum.reduce(errors, errors, fn {key, value}, map ->
       map |> Map.put(key, Enum.join(value, ", "))
     end)
