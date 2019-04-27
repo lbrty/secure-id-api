@@ -34,6 +34,16 @@ defmodule Idp.Geo.States do
   """
   def get_state(id), do: Repo.get(State, id)
 
+  def get_by_name(name) do
+    query = from(
+      c in State,
+      # TODO: look if like statement injections possible
+      where: ilike(c.name, ^"%#{name}%")
+    )
+
+    Repo.all(query)
+  end
+
   @doc """
   Creates a new State.
 
