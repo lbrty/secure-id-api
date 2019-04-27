@@ -285,6 +285,37 @@ defmodule IdpWeb.CountriesSchemaTest do
       }
     end
 
+    test "it is possible to get the list of states for country", %{conn: conn} do
+      query = %{
+        query: """
+        {
+          countries {
+            name
+
+            states {
+              name
+            }
+          }
+        }
+        """
+      }
+
+      result =
+        conn
+        |> TestUtils.get_authenticated_conn()
+        |> post("/api", query)
+        |> json_response(200)
+
+      assert result == %{
+        "data" => %{
+          "countries" => [
+            %{"name" => "Germany", "states" => [%{"name" => "Berlin"}]},
+            %{"name" => "Kyrgyzstan", "states" => [%{"name" => "Chuy"}]}
+          ]
+        }
+      }
+    end
+
     test "update validations work", %{conn: conn} do
       country =
         Countries.list_countries()
