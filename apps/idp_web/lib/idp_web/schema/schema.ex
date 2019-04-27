@@ -26,6 +26,8 @@ defmodule IdpWeb.Schema do
   import_types(IdpWeb.Schema.StateMutations)
 
   import_types(IdpWeb.Schema.CityTypes)
+  import_types(IdpWeb.Schema.CityQueries)
+  import_types(IdpWeb.Schema.CityMutations)
 
   # Import authentication definitions
   import_types(IdpWeb.Schema.AuthTypes)
@@ -37,6 +39,7 @@ defmodule IdpWeb.Schema do
     import_fields(:permission_queries)
     import_fields(:country_queries)
     import_fields(:state_queries)
+    import_fields(:city_queries)
   end
 
   mutation do
@@ -46,5 +49,6 @@ defmodule IdpWeb.Schema do
     import_fields(:permission_mutations)
     import_fields(:country_mutations)
     import_fields(:state_mutations)
+    import_fields(:city_mutations)
   end
 end
