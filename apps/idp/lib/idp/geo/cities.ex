@@ -34,6 +34,16 @@ defmodule Idp.Geo.Cities do
   """
   def get_city(id), do: Repo.get(City, id)
 
+  def get_by_name(name) do
+    query = from(
+      c in City,
+      # TODO: look if like statement injections possible
+      where: ilike(c.name, ^"%#{name}%")
+    )
+
+    Repo.all(query)
+  end
+
   @doc """
   Creates a new City.
 
