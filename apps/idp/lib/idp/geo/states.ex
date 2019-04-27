@@ -36,9 +36,9 @@ defmodule Idp.Geo.States do
 
   def get_by_name(name) do
     query = from(
-      c in State,
+      s in State,
       # TODO: look if like statement injections possible
-      where: ilike(c.name, ^"%#{name}%")
+      where: ilike(s.name, ^"%#{name}%")
     )
 
     Repo.all(query)
