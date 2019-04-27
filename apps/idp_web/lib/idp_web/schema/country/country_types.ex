@@ -4,6 +4,7 @@ defmodule IdpWeb.Schema.CountryTypes do
 
   @desc "Country"
   object :country do
+    field(:id, :id)
     field(:name, :string)
     field(:states, list_of(:state), resolve: assoc(:states))
   end
