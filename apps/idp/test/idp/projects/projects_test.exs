@@ -4,7 +4,7 @@ defmodule Idp.ProjectsTest do
   alias Idp.{Projects, Users}
   alias Idp.Projects.Project
 
-  describe "🚀 projects ::" do
+  describe "[🚀] projects ::" do
     test "list_projects/0 returns all projects" do
       assert length(Projects.list_projects()) > 0
     end

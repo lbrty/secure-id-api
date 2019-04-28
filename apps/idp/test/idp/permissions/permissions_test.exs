@@ -16,7 +16,7 @@ defmodule Idp.PermissionsTest do
     project_id: nil
   }
 
-  describe "🚨 permissions ::" do
+  describe "[🚨] permissions ::" do
     test "list_permissions/0 returns all permissions" do
       assert length(Permissions.list_permissions()) > 0
     end
