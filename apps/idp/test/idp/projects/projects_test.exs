@@ -1,66 +1,87 @@
 defmodule Idp.ProjectsTest do
-  use Idp.DataCase
+  use Idp.IdpCase
 
-  alias Idp.Projects
+  alias Idp.{Projects, Users}
+  alias Idp.Projects.Project
 
-  describe "projects" do
-    alias Idp.Projects.Project
-
-    @valid_attrs %{description: "some description", name: "some name"}
-    @update_attrs %{description: "some updated description", name: "some updated name"}
-    @invalid_attrs %{description: nil, name: nil}
-
-    def project_fixture(attrs \\ %{}) do
-      {:ok, project} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Projects.create_project()
-
-      project
-    end
-
+  describe "🚀 projects ::" do
     test "list_projects/0 returns all projects" do
-      project = project_fixture()
-      assert Projects.list_projects() == [project]
+      assert length(Projects.list_projects()) > 0
     end
 
-    test "get_project!/1 returns the project with given id" do
-      project = project_fixture()
-      assert Projects.get_project!(project.id) == project
+    test "get_project/1 returns the project with given id" do
+      project =
+        Projects.list_projects()
+        |> hd()
+
+      assert Projects.get_project(project.id) == project
     end
 
     test "create_project/1 with valid data creates a project" do
-      assert {:ok, %Project{} = project} = Projects.create_project(@valid_attrs)
-      assert project.description == "some description"
-      assert project.name == "some name"
+      attrs = %{
+        name: "Projext C",
+        description: "Desc"
+      }
+      assert {:ok, %Project{} = project} = Projects.create_project(attrs)
+      assert project.description == "Desc"
+      assert project.name == "Projext C"
     end
 
     test "create_project/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Projects.create_project(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Projects.create_project(%{name: nil})
     end
 
     test "update_project/2 with valid data updates the project" do
-      project = project_fixture()
-      assert {:ok, %Project{} = project} = Projects.update_project(project, @update_attrs)
-      assert project.description == "some updated description"
-      assert project.name == "some updated name"
+      project =
+        Projects.list_projects()
+        |> hd()
+
+      attrs = %{name: "XYZ", description: "ZYX"}
+      assert {:ok, %Project{} = project} = Projects.update_project(project, attrs)
+      assert project.description == "ZYX"
+      assert project.name == "XYZ"
     end
 
     test "update_project/2 with invalid data returns error changeset" do
-      project = project_fixture()
-      assert {:error, %Ecto.Changeset{}} = Projects.update_project(project, @invalid_attrs)
-      assert project == Projects.get_project!(project.id)
+      project =
+        Projects.list_projects()
+        |> hd()
+
+      attrs = %{name: nil}
+      assert {:error, %Ecto.Changeset{}} = Projects.update_project(project, attrs)
     end
 
     test "delete_project/1 deletes the project" do
-      project = project_fixture()
+      project =
+        Projects.list_projects()
+        |> hd()
+
       assert {:ok, %Project{}} = Projects.delete_project(project)
-      assert_raise Ecto.NoResultsError, fn -> Projects.get_project!(project.id) end
+      refute Projects.get_project(project.id)
     end
 
     test "change_project/1 returns a project changeset" do
-      project = project_fixture()
+      project =
+        Projects.list_projects()
+        |> hd()
+
       assert %Ecto.Changeset{} = Projects.change_project(project)
+    end
+
+    test "list_for_user/1 returns shared projects for user" do
+      user =
+        "user1@email.com"
+        |> Users.get_by_email()
+
+      assert length(Projects.list_for_user(user)) == 1
+    end
+
+    test "list_for_user/1 returns all projects for admins" do
+      user =
+        "admin@email.com"
+        |> Users.get_by_email()
+
+      assert length(Projects.list_for_user(user)) == length(Projects.list_projects())
     end
   end
 end
