@@ -23,9 +23,11 @@ defmodule Idp.Umbrella.MixProject do
       "test.all": [
         "cmd --app idp --app idp_web mix test --color --trace"
       ],
+
       "test.web": [
         "cmd --app idp_web mix test --color --trace"
       ],
+
       "test.core": [
         "cmd --app idp mix test --color --trace"
       ]
