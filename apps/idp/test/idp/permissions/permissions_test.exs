@@ -86,6 +86,23 @@ defmodule Idp.PermissionsTest do
 
       assert length(permissions) == 1
     end
+
+    test "for_project_and_user/2 returns the permission" do
+      permission = Permissions.list_permissions() |> hd()
+      user =
+        permission.user_id
+        |> Users.get_user()
+
+      project =
+        permission.project_id
+        |> Projects.get_project()
+
+      found =
+        project
+        |> Permissions.for_project_and_user(user)
+
+      assert permission == found
+    end
   end
 
   defp get_valid_attrs do
