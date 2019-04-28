@@ -21,7 +21,7 @@ defmodule Idp.DataCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Idp.DataCase
+      import Idp.IdpCase
     end
   end
 

@@ -1,5 +1,5 @@
 defmodule Idp.TagsTest do
-  use Idp.DataCase
+  use Idp.IdpCase
 
   alias Idp.Tags
 
