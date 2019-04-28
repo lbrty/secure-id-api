@@ -4,11 +4,6 @@ defmodule IdpWeb.AuthSchemaTest do
 
   @moduletag :auth
 
-  setup context do
-    Idp.Seeds.run()
-    {:ok, context}
-  end
-
   describe "🔐 authentication ::" do
     test "login authenticates user if exists", %{conn: conn} do
       mutation = %{
