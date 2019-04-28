@@ -3,7 +3,7 @@ defmodule Idp.TagsTest do
 
   alias Idp.Tags
 
-  describe "tags" do
+  describe "[🔖] tags ::" do
     alias Idp.Tags.Tag
 
     @valid_attrs %{name: "some name"}
