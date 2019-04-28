@@ -77,6 +77,15 @@ defmodule Idp.PermissionsTest do
       permission = Permissions.list_permissions() |> hd()
       assert %Ecto.Changeset{} = Permissions.change_permission(permission)
     end
+
+    test "list_for_user/1 returns a list permissions" do
+      permissions =
+        "user1@email.com"
+        |> Users.get_by_email()
+        |> Permissions.list_for_user()
+
+      assert length(permissions) == 1
+    end
   end
 
   defp get_valid_attrs do
